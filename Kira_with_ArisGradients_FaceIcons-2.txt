@@ -1,0 +1,4717 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+do
+    local str
+
+    do
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+
+        if not LocalPlayer then
+            pcall(function()
+                Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+            end)
+            LocalPlayer = Players.LocalPlayer
+        end
+
+        str = tostring(LocalPlayer and LocalPlayer.UserId or 0)
+    end
+
+    local v4 = getgenv and getgenv() or _G
+    local KiraHub = v4.KiraHub
+
+    if type(KiraHub) ~= "table" then
+        KiraHub = {
+			slots = {}
+		}
+        v4.KiraHub = KiraHub
+    end
+
+    if type(KiraHub.slots) ~= "table" then
+        KiraHub.slots = {}
+    end
+
+    local unload
+
+    do
+        local v6 = KiraHub.slots[str]
+
+        if type(v6) ~= "table" then
+            v6 = {}
+            KiraHub.slots[str] = v6
+        end
+
+        v6.gen = (tonumber(v6.gen) or 0) + 1
+
+        local v7 = false
+
+        for k, v in pairs(KiraHub.slots) do
+            if str ~= tostring(k) and type(v) == "table" and v.alive == true then
+                v7 = true
+
+                break
+            end
+        end
+
+        if not v7 then
+            v4.KiraCfgGen = (tonumber(v4.KiraCfgGen) or 0) + 1
+        end
+
+        unload = v6.unload
+        v6.unload = nil
+        v6.alive = false
+    end
+
+    if type(unload) == "function" then
+        pcall(unload)
+    elseif type(v4.KiraUnload) == "function" then
+        local KiraUnloadUid = v4.KiraUnloadUid
+        local v12 = KiraUnloadUid == nil or str == tostring(KiraUnloadUid)
+
+        if KiraUnloadUid == nil then
+            for k, v in pairs(KiraHub.slots) do
+                if str ~= tostring(k) and type(v) == "table" and type(v.unload) == "function" then
+                    v12 = false
+
+                    break
+                end
+            end
+        end
+
+        if v12 then
+            local KiraUnload = v4.KiraUnload
+
+            if str == tostring(KiraUnloadUid or str) then
+                v4.KiraUnload = nil
+                v4.KiraUnloadUid = nil
+            end
+
+            pcall(KiraUnload)
+        end
+    end
+end
+do
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+
+    if not LocalPlayer then
+        pcall(function()
+            Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+        end)
+        LocalPlayer = Players.LocalPlayer
+    end
+
+    local v18 = os.clock() + 60
+
+    while LocalPlayer and v18 > os.clock() do
+        local v20, v21
+
+        do
+            local Character = LocalPlayer.Character
+
+            v20 = Character and Character:FindFirstChildOfClass("Humanoid")
+            v21 = Character and Character:FindFirstChild("HumanoidRootPart")
+        end
+
+        if v20 and v21 and v20.Health > 0 then
+            task.wait(0.45)
+
+            local Character = LocalPlayer.Character
+            local v23 = Character and Character:FindFirstChildOfClass("Humanoid")
+            local v24 = Character and Character:FindFirstChild("HumanoidRootPart")
+
+            if not v23 or not v24 or not (v23.Health > 0) then
+                continue
+            end
+
+            break
+        end
+
+        task.wait(0.1)
+    end
+end
+local t1 = {
+	Title = "Kira Hub",
+	Version = "0.1",
+	Product = "Steal an Egg",
+	OpenBind = Enum.KeyCode.RightShift,
+	FlightBind = Enum.KeyCode.F,
+	Tagline = "",
+	Status = "preview",
+	Game = "Steal an Egg",
+	Discord = "https://discord.gg/ZNwS8csX3j",
+	Website = "",
+	Changelog = "",
+	Author = "Kira (@kira_scripts.gg)",
+	Credits = "Thanks to all my dicord members",
+	Support = "Thank You for your support !"
+}
+local function v26(p1)
+    local v328 = tostring(p1 or "Game"):gsub("[<>:\"/\\|?*]", "_"):gsub("%s+", "_"):gsub("_+", "_"):match("^%s*(.-)%s*$")
+
+    if not v328 or v328 == "" or v328 == "_" then
+        v328 = "Game"
+    end
+
+    return v328
+end
+t1.LogoFile = "Kira" .. "/logo.png"
+t1.LogoFileLight = "Kira" .. "/logo-light.png"
+local n1 = 620
+local n2 = 430
+local n3 = 152
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local HttpService, Stats, ProximityPromptService, ReplicatedStorage, LocalPlayer, v40, v41, u42, u43, u44, str, v48, v49, v50, v51, t2
+local t3, t4, t5, t6, t7, t9, t10, t11, t12, u66, u67, u68, u69, u70, u71, t14
+local v73, u75, u76, v79, self, v82, v83, v84, v85, v87, v98, v103, v108, v113, v151, v194
+local v199, v217, v228, v229, v245, v250, v259, v261, v262, v263, u265, u266, v268, v270, v272, v274
+local v277, v278, v279, v280, v281, v282, u284, v287, v288, v289, v290, v291, v292, v293
+do
+    local t8, t13, v81, v86
+
+    do
+        local t26, v94
+
+        do
+            local TweenService = game:GetService("TweenService")
+
+            HttpService = game:GetService("HttpService")
+            Stats = game:GetService("Stats")
+            ProximityPromptService = game:GetService("ProximityPromptService")
+            ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+            local GuiService = game:GetService("GuiService")
+
+            LocalPlayer = Players.LocalPlayer
+
+            if not LocalPlayer then
+                pcall(function()
+                    Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+                end)
+                LocalPlayer = Players.LocalPlayer
+            end
+
+            function v40()
+                if UserInputService.VREnabled then
+                    return false
+                end
+                local u338 = false
+                pcall(function()
+                    u338 = GuiService:IsTenFootInterface()
+                end)
+                if u338 then
+                    return false
+                end
+                if UserInputService.TouchEnabled then
+                    return true
+                end
+                if UserInputService.MouseEnabled == false then
+                    return true
+                end
+                local u339 = false
+                local u340 = false
+                pcall(function()
+                    u339 = UserInputService.GyroscopeEnabled == true
+                end)
+                pcall(function()
+                    u340 = UserInputService.AccelerometerEnabled == true
+                end)
+                if u339 or u340 then
+                    return true
+                end
+                local PreferredInput
+                local LastInputType
+                pcall(function()
+                    PreferredInput = UserInputService.PreferredInput
+                end)
+                pcall(function()
+                    LastInputType = UserInputService:GetLastInputType()
+                end)
+                if PreferredInput == Enum.PreferredInput.Touch or LastInputType == Enum.UserInputType.Touch then
+                    return true
+                end
+                local v343 = LocalPlayer and LocalPlayer:FindFirstChild("PlayerGui")
+                if v343 and (v343:FindFirstChild("TouchGui", true) or v343:FindFirstChild("TouchControlFrame", true) or v343:FindFirstChild("JumpButton", true) or v343:FindFirstChild("DynamicThumbstickFrame", true)) then
+                    return true
+                end
+
+                return false
+            end
+            function v41()
+                local CurrentCamera = workspace.CurrentCamera
+                local v345 = if not CurrentCamera then Vector2.new(1280, 720) else CurrentCamera.ViewportSize
+                local v346 = math.floor(math.clamp(v345.X * 0.7, 440, 560))
+                local v347 = math.floor(math.clamp(v345.Y * 0.74, 340, 410))
+
+                if v345.X > 80 then
+                    v346 = math.min(v346, v345.X - 36)
+                end
+
+                if v345.Y > 80 then
+                    v347 = math.min(v347, v345.Y - 36)
+                end
+
+                return math.max(400, v346), math.max(320, v347)
+            end
+
+            u42 = v40()
+            u43 = false
+            u44 = nil
+
+            if u42 then
+                local v45, v46 = v41()
+
+                n1 = v45
+                n2 = v46
+                n3 = 128
+            end
+
+            str = tostring(LocalPlayer and LocalPlayer.UserId or 0)
+            v48 = "PH_UI_" .. str
+            v49 = "KiraWorldGui_" .. str
+
+            function v50()
+                return getgenv and getgenv() or _G
+            end
+            function v51()
+                local v350 = getgenv and getgenv() or _G
+                local KiraHub = v350.KiraHub
+
+                if type(KiraHub) ~= "table" then
+                    KiraHub = {
+						slots = {}
+					}
+                    v350.KiraHub = KiraHub
+                end
+
+                if type(KiraHub.slots) ~= "table" then
+                    KiraHub.slots = {}
+                end
+
+                local v352 = KiraHub.slots[str]
+
+                if type(v352) ~= "table" then
+                    v352 = {}
+                    KiraHub.slots[str] = v352
+                end
+
+                return v352
+            end
+
+            t1.ConfigFile = (("Kira" .. "/" .. v26(t1.Game)) .. "/cache") .. "/" .. v26(LocalPlayer and LocalPlayer.Name or "Player") .. "-config.json"
+            t2 = {
+				Dark = {
+					bg = Color3.fromRGB(12, 11, 10),
+					rail = Color3.fromRGB(16, 15, 14),
+					card = Color3.fromRGB(32, 30, 27),
+					lift = Color3.fromRGB(42, 39, 35),
+					fill = Color3.fromRGB(48, 44, 39),
+					line = Color3.fromRGB(58, 53, 46),
+					text = Color3.fromRGB(246, 242, 234),
+					dim = Color3.fromRGB(168, 158, 144),
+					mute = Color3.fromRGB(110, 102, 92),
+					accent = Color3.fromRGB(214, 168, 108),
+					accentDeep = Color3.fromRGB(92, 68, 36),
+					accentHover = Color3.fromRGB(228, 186, 128),
+					ink = Color3.fromRGB(22, 18, 14),
+					ok = Color3.fromRGB(138, 166, 128),
+					Kira = Color3.fromRGB(246, 242, 234)
+				},
+				Light = {
+					bg = Color3.fromRGB(232, 226, 218),
+					rail = Color3.fromRGB(232, 226, 218),
+					card = Color3.fromRGB(252, 250, 246),
+					lift = Color3.fromRGB(242, 236, 228),
+					fill = Color3.fromRGB(224, 218, 208),
+					line = Color3.fromRGB(204, 196, 184),
+					text = Color3.fromRGB(28, 24, 20),
+					dim = Color3.fromRGB(92, 84, 74),
+					mute = Color3.fromRGB(128, 120, 108),
+					accent = Color3.fromRGB(168, 114, 56),
+					accentDeep = Color3.fromRGB(120, 80, 38),
+					accentHover = Color3.fromRGB(186, 132, 70),
+					ink = Color3.fromRGB(252, 250, 246),
+					ok = Color3.fromRGB(64, 118, 82),
+					Kira = Color3.fromRGB(28, 24, 20)
+				}
+			}
+            t3 = {}
+
+            for k, v in pairs(t2.Dark) do
+                t3[k] = v
+            end
+
+            t4 = {
+				title = Enum.Font.BuilderSansBold,
+				mid = Enum.Font.BuilderSansMedium,
+				body = Enum.Font.BuilderSans,
+				mono = Enum.Font.RobotoMono
+			}
+            -- ===== ARIS STYLE RGB GRADIENT SYSTEM (ported) =====
+            local _Genv = getgenv and getgenv() or _G
+            _Genv.KiraGrad = _Genv.KiraGrad or {}
+            local UIGradientList = {}
+            local TextGradientList = {}
+            local BtnGradientList = {}
+            _Genv.KiraGrad.UIGradientList = UIGradientList
+            _Genv.KiraGrad.TextGradientList = TextGradientList
+            _Genv.KiraGrad.BtnGradientList = BtnGradientList
+            function GetRGB() return Color3.fromHSV(tick() % 5 / 5, 1, 1) end
+            local Palettes = {
+                On = { Color3.fromRGB(0, 240, 255), Color3.fromRGB(130, 100, 255), Color3.fromRGB(255, 150, 255), Color3.fromRGB(0, 240, 255) },
+                Off = { Color3.fromRGB(12, 12, 12), Color3.fromRGB(180, 20, 20), Color3.fromRGB(12, 12, 12) },
+                Text = { Color3.fromRGB(0, 150, 255), Color3.fromRGB(255, 0, 150), Color3.fromRGB(0, 150, 255) },
+                Border = { Color3.fromRGB(255, 0, 0), Color3.fromRGB(15, 15, 15), Color3.fromRGB(255, 0, 0) }
+            }
+            _Genv.KiraGrad.Palettes = Palettes
+            function GetMovingColorSequence(palette, shift)
+                local keypoints = {}
+                for step = 0, 5 do
+                    local i = step / 5
+                    local t = (i - shift) % 1
+                    if t < 0 then t = t + 1 end
+                    local segments = #palette - 1
+                    local scaled = t * segments
+                    local index = math.floor(scaled) + 1
+                    local fraction = scaled - (index - 1)
+                    local color
+                    if index >= #palette then color = palette[#palette] else color = palette[index]:Lerp(palette[index + 1], fraction) end
+                    table.insert(keypoints, ColorSequenceKeypoint.new(i, color))
+                end
+                return ColorSequence.new(keypoints)
+            end
+            _Genv.KiraGrad.GetMovingColorSequence = GetMovingColorSequence
+            function CreateBorder(parent)
+                local stroke = Instance.new("UIStroke", parent)
+                stroke.Thickness = 1.8
+                stroke.Color = Color3.new(1, 1, 1)
+                local grad = Instance.new("UIGradient", stroke)
+                grad.Rotation = 90
+                table.insert(UIGradientList, grad)
+                return stroke
+            end
+            function CreateTextGradient(parent)
+                parent.TextColor3 = Color3.new(1, 1, 1)
+                parent.TextStrokeTransparency = 1
+                local txtStroke = Instance.new("UIStroke", parent)
+                txtStroke.Thickness = 0.5
+                txtStroke.Color = Color3.new(0, 0, 0)
+                local grad = Instance.new("UIGradient", parent)
+                grad.Rotation = 90
+                table.insert(TextGradientList, grad)
+            end
+            -- ===== END ARIS GRADIENT =====
+
+            t5 = {
+				"Forest",
+				"Desert",
+				"Lake",
+				"Jungle",
+				"Snow",
+				"Volcano",
+				"Prehistoric",
+				"Cosmic",
+				"Abyss Ocean",
+				"Cherry Blossom"
+			}
+            t6 = {
+				"Common",
+				"Uncommon",
+				"Rare",
+				"Epic",
+				"Legendary",
+				"Mythic",
+				"Cosmic",
+				"Secret",
+				"Eternal",
+				"Divine",
+				"Titan"
+			}
+            t7 = {
+				"Golden",
+				"Rainbow",
+				"Galaxy",
+				"Crystal",
+				"Bloom"
+			}
+            t8 = {
+				About = "info",
+				["Auto Steal"] = "egg",
+				Plot = "grid",
+				Serverhop = "rocket",
+				Misc = "layers",
+				Webhook = "out",
+				Settings = "cog"
+			}
+            t9 = {}
+            t10 = {}
+            t11 = {}
+            t12 = {}
+            t13 = {}
+            u66 = nil
+            u67 = nil
+            u68 = nil
+            u69 = nil
+            u70 = nil
+            u71 = nil
+            t14 = {}
+
+            function v73(p2)
+                if p2 then
+                    t14[#t14 + 1] = p2
+                end
+
+                return p2
+            end
+
+            local t15 = {}
+
+            u75 = nil
+            u76 = nil
+
+            local function v77(p3)
+                if type(p3) ~= "string" or p3 == "" then
+                    return
+                end
+
+                local t16 = {}
+
+                if crypt then
+                    t16[#t16 + 1] = crypt.base64decode
+                    t16[#t16 + 1] = crypt.base64_decode
+                end
+
+                if syn and syn.crypt and syn.crypt.base64 and syn.crypt.base64.decode then
+                    t16[#t16 + 1] = syn.crypt.base64.decode
+                end
+
+                if base64 and base64.decode then
+                    t16[#t16 + 1] = base64.decode
+                end
+
+                if base64_decode then
+                    t16[#t16 + 1] = base64_decode
+                end
+
+                for i = 1, #t16 do
+                    local ok, result = pcall(t16[i], p3)
+
+                    if ok and type(result) == "string" and #result > 64 then
+                        return result
+                    end
+                end
+            end
+            local function v78(p4)
+                if p4 then
+                    if u76 then
+                        return u76
+                    end
+                elseif u75 then
+                    return u75
+                end
+
+                local v367 = v77(not p4 and "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")
+
+                if not v367 then
+                    return
+                end
+
+                local v368 = p4 and t1.LogoFileLight or t1.LogoFile
+
+                if type(makefolder) == "function" then
+                    pcall(makefolder, "Kira")
+                end
+
+                if writefile then
+                    pcall(writefile, v368, v367)
+                end
+
+                if getcustomasset then
+                    local ok, result = pcall(getcustomasset, v368)
+
+                    if ok and type(result) == "string" and result ~= "" then
+                        if p4 then
+                            u76 = result
+
+                            return result
+                        end
+
+                        u75 = result
+
+                        return result
+                    end
+                end
+            end
+
+            function v79()
+                local v371 = v78(t9.Theme == "Light")
+
+                if not v371 then
+                    return
+                end
+
+                for _, v in ipairs(t15) do
+                    local Mark = v:FindFirstChild("Mark")
+
+                    if Mark and Mark:IsA("ImageLabel") then
+                        Mark.Image = v371
+                        Mark.ImageColor3 = Color3.new(1, 1, 1)
+                    end
+                end
+            end
+
+            self = setmetatable({}, {
+				__mode = "k"
+			})
+
+            function v81(p5, p6, p7, p8)
+                local v379 = self[p5]
+
+                if v379 then
+                    pcall(function()
+                        v379:Cancel()
+                    end)
+                end
+
+                local tween = TweenService:Create(p5, TweenInfo.new(p6, p8 or Enum.EasingStyle.Quart, Enum.EasingDirection.Out), p7)
+
+                self[p5] = tween
+                tween:Play()
+                tween.Completed:Connect(function()
+                    if self[p5] == tween then
+                        self[p5] = nil
+                    end
+                end)
+            end
+            function v82(p9, p10, p11)
+                local v384 = Instance.new(p9)
+
+                if p10 then
+                    for k, v in pairs(p10) do
+                        v384[k] = v
+                    end
+                end
+
+                if p11 then
+                    v384.Parent = p11
+                end
+
+                return v384
+            end
+            function v83(p12, p13, p14)
+                local v396
+                local v397
+                if type(p13) == "string" then
+                    v396 = p13
+                    v397 = t3[p13] or t3.line
+                else
+                    v397 = p13 or t3.line
+                end
+                local t17 = {
+					Color = Color3.new(1, 1, 1), -- white base so gradient shows
+					Thickness = p14 or 1,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				}
+                local UIStroke = Instance.new("UIStroke")
+                if t17 then
+                    for k, v in pairs(t17) do
+                        UIStroke[k] = v
+                    end
+                end
+                if p12 then
+                    UIStroke.Parent = p12
+                end
+                if v396 then
+                    UIStroke:SetAttribute("th_stroke", v396)
+                end
+                -- Aris RGB gradient on every stroke
+                local grad = Instance.new("UIGradient")
+                grad.Rotation = 90
+                grad.Parent = UIStroke
+                if UIGradientList then
+                    table.insert(UIGradientList, grad)
+                end
+                return UIStroke
+            end
+            function v84(p15, p16, p17, p18, p19)
+                if p17 == nil then
+                    p17 = p16
+                    p18 = p16
+                    p19 = p16
+                end
+
+                local t18 = {
+					PaddingLeft = UDim.new(0, p16),
+					PaddingTop = UDim.new(0, p17),
+					PaddingRight = UDim.new(0, p18 or p16),
+					PaddingBottom = UDim.new(0, p19 or p17)
+				}
+                local UIPadding = Instance.new("UIPadding")
+
+                if t18 then
+                    for k, v in pairs(t18) do
+                        UIPadding[k] = v
+                    end
+                end
+
+                if p15 then
+                    UIPadding.Parent = p15
+                end
+
+                return UIPadding
+            end
+            function v85(p20, p21, p22)
+                if type(p21) == "string" then
+                    if p20 and p21 then
+                        p20:SetAttribute("th_bg", p21)
+
+                        local v418 = t3[p21]
+
+                        if v418 and p20:IsA("GuiObject") then
+                            p20.BackgroundColor3 = v418
+                        end
+                    end
+
+                    p20:SetAttribute("th_hover", p22)
+                end
+
+                p20.MouseEnter:Connect(function()
+                    if p20:GetAttribute("locked") then
+                        return
+                    end
+
+                    p20:SetAttribute("th_over", true)
+
+                    local v1246 = p20:GetAttribute("th_hover") or p22
+                    local v1247 = type(v1246) == "string" and t3[v1246] or v1246
+
+                    if v1247 then
+                        v81(p20, 0.12, {
+							BackgroundColor3 = v1247
+						})
+                    end
+                end)
+                p20.MouseLeave:Connect(function()
+                    if p20:GetAttribute("locked") then
+                        return
+                    end
+
+                    p20:SetAttribute("th_over", false)
+
+                    local v1248 = p20:GetAttribute("th_bg") or p21
+                    local v1249 = type(v1248) == "string" and t3[v1248] or v1248
+
+                    if v1249 then
+                        v81(p20, 0.12, {
+							BackgroundColor3 = v1249
+						})
+                    end
+                end)
+            end
+            
+            function v86(p23, p24, p25, p26)
+                -- Replaced custom drawn icons with human-face style ImageLabel (ported request)
+                local Frame = Instance.new("Frame")
+                Frame.BackgroundTransparency = 1
+                Frame.Size = UDim2.fromOffset(16, 16)
+                Frame.ZIndex = p26
+                if p23 then Frame.Parent = p23 end
+
+                local ImageLabel = Instance.new("ImageLabel")
+                ImageLabel.Name = "FaceIcon"
+                ImageLabel.BackgroundTransparency = 1
+                ImageLabel.Size = UDim2.fromScale(1, 1)
+                ImageLabel.Image = "rbxassetid://125329301331069" -- face / logo style asset from original
+                ImageLabel.ImageColor3 = p25 or Color3.new(1,1,1)
+                ImageLabel.ScaleType = Enum.ScaleType.Fit
+                ImageLabel.ZIndex = p26 + 1
+                ImageLabel.Parent = Frame
+                return Frame
+            end
+
+            function v87(p37, p38, p39)
+                local v433 = p39 or 18
+                local t24 = {
+					Name = "Kira Hub",
+					BackgroundTransparency = 1,
+					Size = UDim2.fromOffset(v433, v433),
+					ZIndex = p38
+				}
+                local Frame = Instance.new("Frame")
+
+                if t24 then
+                    for k, v in pairs(t24) do
+                        Frame[k] = v
+                    end
+                end
+
+                if p37 then
+                    Frame.Parent = p37
+                end
+
+                local v438 = v78(false)
+                local t25 = {
+					Name = "Mark",
+					BackgroundTransparency = 1,
+					Size = UDim2.fromScale(1, 1),
+					Image = "rbxassetid://125329301331069",
+					ImageColor3 = Color3.new(1, 1, 1),
+					ScaleType = Enum.ScaleType.Fit,
+					ZIndex = p38 + 1
+				}
+                local ImageLabel = Instance.new("ImageLabel")
+
+                if t25 then
+                    for k, v in pairs(t25) do
+                        ImageLabel[k] = v
+                    end
+                end
+
+                if Frame then
+                    ImageLabel.Parent = Frame
+                end
+
+                t15[#t15 + 1] = Frame
+
+                return Frame
+            end
+
+            local function v88()
+                if gethui then
+                    local ok, result = pcall(gethui)
+
+                    if ok and result then
+                        return result
+                    end
+                end
+
+                local CoreGui = game:GetService("CoreGui")
+
+                if pcall(function()
+                    return CoreGui:FindFirstChild("PH_UI")
+                end) then
+                    return CoreGui
+                end
+
+                return LocalPlayer:WaitForChild("PlayerGui")
+            end
+
+            local v89 = v88()
+            local v90 = v89:FindFirstChild(v48)
+
+            if v90 then
+                v90:Destroy()
+            end
+
+            local PH_UI = v89:FindFirstChild("PH_UI")
+
+            if PH_UI then
+                local KiraUnloadUid = (getgenv and getgenv() or _G).KiraUnloadUid
+
+                if KiraUnloadUid == nil or str == tostring(KiraUnloadUid) then
+                    PH_UI:Destroy()
+                end
+            end
+
+            t26 = {
+				Name = v48,
+				ResetOnSpawn = false,
+				IgnoreGuiInset = true,
+				ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+				DisplayOrder = 1200
+			}
+            v94 = v88()
+        end
+
+        local ScreenGui = Instance.new("ScreenGui")
+
+        if t26 then
+            for k, v in pairs(t26) do
+                ScreenGui[k] = v
+            end
+        end
+
+        if v94 then
+            ScreenGui.Parent = v94
+        end
+
+        v98 = ScreenGui
+        pcall(function()
+            if syn and syn.protect_gui then
+                syn.protect_gui(v98)
+            end
+        end)
+
+        local t27 = {
+			Name = "Overlay",
+			BackgroundTransparency = 1,
+			Text = "",
+			AutoButtonColor = false,
+			Size = UDim2.fromScale(1, 1),
+			Visible = false,
+			ZIndex = 80
+		}
+        local TextButton = Instance.new("TextButton")
+
+        if t27 then
+            for k, v in pairs(t27) do
+                TextButton[k] = v
+            end
+        end
+
+        if v98 then
+            TextButton.Parent = v98
+        end
+
+        v103 = TextButton
+
+        local t28 = {
+			Scale = 1
+		}
+        local UIScale = Instance.new("UIScale")
+
+        if t28 then
+            for k, v in pairs(t28) do
+                UIScale[k] = v
+            end
+        end
+
+        v108 = UIScale
+
+        local t29 = {
+			Name = "Window",
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+			Size = UDim2.fromOffset(n1, n2),
+			BackgroundColor3 = t3.bg,
+			BorderSizePixel = 0,
+			ClipsDescendants = false,
+			ZIndex = 10
+		}
+        local Frame = Instance.new("Frame")
+
+        if t29 then
+            for k, v in pairs(t29) do
+                Frame[k] = v
+            end
+        end
+
+        if v98 then
+            Frame.Parent = v98
+        end
+
+        v113 = Frame
+    end
+
+    do
+        local t30 = {
+			CornerRadius = UDim.new(0, 12)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t30 then
+            for k, v in pairs(t30) do
+                UICorner[k] = v
+            end
+        end
+
+        if v113 then
+            UICorner.Parent = v113
+        end
+
+        local s1 = "line"
+        local t31 = {
+			Color = t3.line or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+        local UIStroke = Instance.new("UIStroke")
+
+        if t31 then
+            for k, v in pairs(t31) do
+                UIStroke[k] = v
+            end
+        end
+
+        if v113 then
+            UIStroke.Parent = v113
+        end
+
+        if s1 then
+            UIStroke:SetAttribute("th_stroke", s1)
+        end
+
+        v108.Parent = v113
+
+        if v113 then
+            v113:SetAttribute("th_bg", "bg")
+
+            local bg = t3.bg
+
+            if bg and v113:IsA("GuiObject") then
+                v113.BackgroundColor3 = bg
+            end
+        end
+
+        local t32 = {
+			Name = "Shadow",
+			BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+			BackgroundTransparency = 0.7,
+			Position = UDim2.fromOffset(8, 12),
+			Size = UDim2.new(1, 0, 1, 0),
+			ZIndex = 9,
+			BorderSizePixel = 0
+		}
+        local Frame = Instance.new("Frame")
+
+        if t32 then
+            for k, v in pairs(t32) do
+                Frame[k] = v
+            end
+        end
+
+        if v113 then
+            Frame.Parent = v113
+        end
+
+        local Shadow = v113.Shadow
+        local t33 = {
+			CornerRadius = UDim.new(0, 14)
+		}
+        local UICorner2 = Instance.new("UICorner")
+
+        if t33 then
+            for k, v in pairs(t33) do
+                UICorner2[k] = v
+            end
+        end
+
+        if Shadow then
+            UICorner2.Parent = Shadow
+        end
+    end
+
+    do
+        local t34 = {
+			Name = "HeadBar",
+			BackgroundColor3 = t3.rail,
+			BorderSizePixel = 0,
+			Size = UDim2.new(1, 0, 0, 82),
+			ZIndex = 11
+		}
+        local Frame = Instance.new("Frame")
+
+        if t34 then
+            for k, v in pairs(t34) do
+                Frame[k] = v
+            end
+        end
+
+        if v113 then
+            Frame.Parent = v113
+        end
+
+        if Frame then
+            Frame:SetAttribute("th_bg", "rail")
+
+            local rail = t3.rail
+
+            if rail and Frame:IsA("GuiObject") then
+                Frame.BackgroundColor3 = rail
+            end
+        end
+
+        local t35 = {
+			CornerRadius = UDim.new(0, 12)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t35 then
+            for k, v in pairs(t35) do
+                UICorner[k] = v
+            end
+        end
+
+        if Frame then
+            UICorner.Parent = Frame
+        end
+
+        local t36 = {
+			BackgroundColor3 = t3.rail,
+			BorderSizePixel = 0,
+			Position = UDim2.new(0, 0, 1, -16),
+			Size = UDim2.new(1, 0, 0, 16),
+			ZIndex = 11
+		}
+        local Frame4 = Instance.new("Frame")
+
+        if t36 then
+            for k, v in pairs(t36) do
+                Frame4[k] = v
+            end
+        end
+
+        if Frame then
+            Frame4.Parent = Frame
+        end
+
+        if Frame4 then
+            Frame4:SetAttribute("th_bg", "rail")
+
+            local rail = t3.rail
+
+            if rail and Frame4:IsA("GuiObject") then
+                Frame4.BackgroundColor3 = rail
+            end
+        end
+
+        local t37 = {
+			Name = "Rail",
+			BackgroundColor3 = t3.rail,
+			BorderSizePixel = 0,
+			Size = UDim2.new(0, n3, 1, 0),
+			ZIndex = 11
+		}
+        local Frame5 = Instance.new("Frame")
+
+        if t37 then
+            for k, v in pairs(t37) do
+                Frame5[k] = v
+            end
+        end
+
+        if v113 then
+            Frame5.Parent = v113
+        end
+
+        v151 = Frame5
+
+        if v151 then
+            v151:SetAttribute("th_bg", "rail")
+
+            local rail = t3.rail
+
+            if rail and v151:IsA("GuiObject") then
+                v151.BackgroundColor3 = rail
+            end
+        end
+
+        local t38 = {
+			CornerRadius = UDim.new(0, 12)
+		}
+        local UICorner3 = Instance.new("UICorner")
+
+        if t38 then
+            for k, v in pairs(t38) do
+                UICorner3[k] = v
+            end
+        end
+
+        if v151 then
+            UICorner3.Parent = v151
+        end
+    end
+
+    local v171, v204, v210
+
+    do
+        local Frame, TextLabel
+
+        do
+            local t39 = {
+				BackgroundColor3 = t3.rail,
+				BorderSizePixel = 0,
+				Position = UDim2.new(1, -16, 0, 0),
+				Size = UDim2.new(0, 16, 1, 0),
+				ZIndex = 11
+			}
+            local Frame6 = Instance.new("Frame")
+
+            if t39 then
+                for k, v in pairs(t39) do
+                    Frame6[k] = v
+                end
+            end
+
+            if v151 then
+                Frame6.Parent = v151
+            end
+
+            if Frame6 then
+                Frame6:SetAttribute("th_bg", "rail")
+
+                local rail = t3.rail
+
+                if rail and Frame6:IsA("GuiObject") then
+                    Frame6.BackgroundColor3 = rail
+                end
+            end
+
+            local t40 = {
+				BackgroundColor3 = t3.line,
+				BorderSizePixel = 0,
+				Position = UDim2.new(1, -1, 0, 2),
+				Size = UDim2.new(0, 1, 1, -2),
+				ZIndex = 12
+			}
+            local Frame7 = Instance.new("Frame")
+
+            if t40 then
+                for k, v in pairs(t40) do
+                    Frame7[k] = v
+                end
+            end
+
+            if v151 then
+                Frame7.Parent = v151
+            end
+
+            if Frame7 then
+                Frame7:SetAttribute("th_bg", "line")
+
+                local line = t3.line
+
+                if line and Frame7:IsA("GuiObject") then
+                    Frame7.BackgroundColor3 = line
+                end
+            end
+
+            v151.Active = true
+
+            local t41 = {
+				BackgroundTransparency = 1,
+				Size = UDim2.new(1, 0, 1, -18),
+				Position = UDim2.fromOffset(0, 12),
+				CanvasSize = UDim2.new(0, 0, 0, 0),
+				AutomaticCanvasSize = Enum.AutomaticSize.Y,
+				ScrollBarThickness = not u42 and 0 or 5,
+				BorderSizePixel = 0,
+				ZIndex = 12
+			}
+            local ScrollingFrame = Instance.new("ScrollingFrame")
+
+            if t41 then
+                for k, v in pairs(t41) do
+                    ScrollingFrame[k] = v
+                end
+            end
+
+            if v151 then
+                ScrollingFrame.Parent = v151
+            end
+
+            v171 = ScrollingFrame
+            v84(v171, 10, 2, 10, 12)
+
+            local t42 = {
+				FillDirection = Enum.FillDirection.Vertical,
+				Padding = UDim.new(0, 3),
+				SortOrder = Enum.SortOrder.LayoutOrder
+			}
+            local UIListLayout = Instance.new("UIListLayout")
+
+            if t42 then
+                for k, v in pairs(t42) do
+                    UIListLayout[k] = v
+                end
+            end
+
+            if v171 then
+                UIListLayout.Parent = v171
+            end
+
+            local t43 = {
+				BackgroundTransparency = 1,
+				Size = UDim2.new(1, 0, 0, 40),
+				LayoutOrder = 0,
+				ZIndex = 12
+			}
+
+            Frame = Instance.new("Frame")
+
+            if t43 then
+                for k, v in pairs(t43) do
+                    Frame[k] = v
+                end
+            end
+
+            if v171 then
+                Frame.Parent = v171
+            end
+
+            v87(Frame, 13, 28).Position = UDim2.fromOffset(0, 2)
+
+            local t44 = {
+				BackgroundTransparency = 1,
+				Position = UDim2.fromOffset(34, 3),
+				Size = UDim2.new(1, -34, 0, 16),
+				Font = t4.title,
+				Text = t1.Title,
+				TextColor3 = t3.text,
+				TextSize = 14,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				TextTruncate = Enum.TextTruncate.AtEnd,
+				ZIndex = 13
+			}
+
+            TextLabel = Instance.new("TextLabel")
+
+            if t44 then
+                for k, v in pairs(t44) do
+                    TextLabel[k] = v
+                end
+            end
+        end
+
+        if Frame then
+            TextLabel.Parent = Frame
+        end
+
+        if TextLabel then
+            TextLabel:SetAttribute("th_text", "text")
+
+            local text = t3.text
+
+            if text then
+                TextLabel.TextColor3 = text
+            end
+        end
+
+        local t45 = {
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(34, 20),
+			Size = UDim2.new(1, -34, 0, 12),
+			Font = t4.mono,
+			Text = t1.Product,
+			TextColor3 = t3.mute,
+			TextSize = 9,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			ZIndex = 13
+		}
+        local TextLabel2 = Instance.new("TextLabel")
+
+        if t45 then
+            for k, v in pairs(t45) do
+                TextLabel2[k] = v
+            end
+        end
+
+        if Frame then
+            TextLabel2.Parent = Frame
+        end
+
+        if TextLabel2 then
+            TextLabel2:SetAttribute("th_text", "mute")
+
+            local mute = t3.mute
+
+            if mute then
+                TextLabel2.TextColor3 = mute
+            end
+        end
+
+        local t46 = {
+			Name = "Main",
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(n3, 2),
+			Size = UDim2.new(1, -n3, 1, -2),
+			ZIndex = 11
+		}
+        local Frame8 = Instance.new("Frame")
+
+        if t46 then
+            for k, v in pairs(t46) do
+                Frame8[k] = v
+            end
+        end
+
+        if v113 then
+            Frame8.Parent = v113
+        end
+
+        v194 = Frame8
+
+        local t47 = {
+			Name = "Header",
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 0, 46),
+			ZIndex = 12,
+			Active = true
+		}
+        local Frame9 = Instance.new("Frame")
+
+        if t47 then
+            for k, v in pairs(t47) do
+                Frame9[k] = v
+            end
+        end
+
+        if v194 then
+            Frame9.Parent = v194
+        end
+
+        v199 = Frame9
+
+        local t48 = {
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(14, 8),
+			Size = UDim2.new(1, -180, 0, 18),
+			Font = t4.title,
+			Text = "Auto Steal",
+			TextColor3 = t3.text,
+			TextSize = 16,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			ZIndex = 12
+		}
+        local TextLabel3 = Instance.new("TextLabel")
+
+        if t48 then
+            for k, v in pairs(t48) do
+                TextLabel3[k] = v
+            end
+        end
+
+        if v199 then
+            TextLabel3.Parent = v199
+        end
+
+        v204 = TextLabel3
+
+        if v204 then
+            v204:SetAttribute("th_text", "text")
+
+            local text = t3.text
+
+            if text then
+                v204.TextColor3 = text
+            end
+        end
+
+        local t49 = {
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(14, 26),
+			Size = UDim2.new(1, -180, 0, 14),
+			Font = t4.body,
+			Text = "idle",
+			TextColor3 = t3.dim,
+			TextSize = 11,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			ZIndex = 12
+		}
+        local TextLabel4 = Instance.new("TextLabel")
+
+        if t49 then
+            for k, v in pairs(t49) do
+                TextLabel4[k] = v
+            end
+        end
+
+        if v199 then
+            TextLabel4.Parent = v199
+        end
+
+        v210 = TextLabel4
+    end
+
+    if v210 then
+        v210:SetAttribute("th_text", "dim")
+
+        local dim = t3.dim
+
+        if dim then
+            v210.TextColor3 = dim
+        end
+    end
+
+    local Frame, UIStroke
+
+    do
+        local function v212(p40, p41)
+            local t50 = {
+				AnchorPoint = Vector2.new(1, 0.5),
+				BackgroundColor3 = t3.card,
+				Position = UDim2.new(1, p41, 0.5, 2),
+				Size = UDim2.fromOffset(p40, 22),
+				Font = t4.mono,
+				Text = "—",
+				TextColor3 = t3.dim,
+				TextSize = 10,
+				ZIndex = 12
+			}
+            local v449 = v199
+            local TextLabel = Instance.new("TextLabel")
+
+            if t50 then
+                for k, v in pairs(t50) do
+                    TextLabel[k] = v
+                end
+            end
+
+            if v449 then
+                TextLabel.Parent = v449
+            end
+
+            local t51 = {
+				CornerRadius = UDim.new(0, 7)
+			}
+            local UICorner = Instance.new("UICorner")
+
+            if t51 then
+                for k, v in pairs(t51) do
+                    UICorner[k] = v
+                end
+            end
+
+            if TextLabel then
+                UICorner.Parent = TextLabel
+            end
+
+            local s2 = "line"
+            local t52 = {
+				Color = t3.line or t3.line,
+				Thickness = 1,
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			}
+            local UIStroke2 = Instance.new("UIStroke")
+
+            if t52 then
+                for k, v in pairs(t52) do
+                    UIStroke2[k] = v
+                end
+            end
+
+            if TextLabel then
+                UIStroke2.Parent = TextLabel
+            end
+
+            if s2 then
+                UIStroke2:SetAttribute("th_stroke", s2)
+            end
+
+            if TextLabel then
+                TextLabel:SetAttribute("th_bg", "card")
+
+                local card = t3.card
+
+                if card and TextLabel:IsA("GuiObject") then
+                    TextLabel.BackgroundColor3 = card
+                end
+            end
+
+            if TextLabel then
+                TextLabel:SetAttribute("th_text", "dim")
+
+                local dim = t3.dim
+
+                if not dim then
+                    return TextLabel
+                end
+
+                TextLabel.TextColor3 = dim
+            end
+
+            return TextLabel
+        end
+
+        local t53 = {
+			AnchorPoint = Vector2.new(1, 0.5),
+			BackgroundColor3 = t3.card,
+			Position = UDim2.new(1, -12, 0.5, 2),
+			Size = UDim2.fromOffset(not u42 and 22 or 32, not u42 and 22 or 32),
+			Font = t4.mid,
+			Text = "–",
+			TextColor3 = t3.dim,
+			TextSize = 14,
+			AutoButtonColor = false,
+			ZIndex = 12
+		}
+        local TextButton = Instance.new("TextButton")
+
+        if t53 then
+            for k, v in pairs(t53) do
+                TextButton[k] = v
+            end
+        end
+
+        if v199 then
+            TextButton.Parent = v199
+        end
+
+        v217 = TextButton
+
+        local t54 = {
+			CornerRadius = UDim.new(0, 7)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t54 then
+            for k, v in pairs(t54) do
+                UICorner[k] = v
+            end
+        end
+
+        if v217 then
+            UICorner.Parent = v217
+        end
+
+        local s3 = "line"
+        local t55 = {
+			Color = t3.line or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+        local UIStroke3 = Instance.new("UIStroke")
+
+        if t55 then
+            for k, v in pairs(t55) do
+                UIStroke3[k] = v
+            end
+        end
+
+        if v217 then
+            UIStroke3.Parent = v217
+        end
+
+        if s3 then
+            UIStroke3:SetAttribute("th_stroke", s3)
+        end
+
+        v85(v217, "card", "lift")
+
+        if v217 then
+            v217:SetAttribute("th_text", "dim")
+
+            local dim = t3.dim
+
+            if dim then
+                v217.TextColor3 = dim
+            end
+        end
+
+        v228 = v212(52, -54)
+        v229 = v212(56, -110)
+
+        local t56 = {
+			BackgroundColor3 = t3.card,
+			Position = UDim2.fromOffset(14, 46),
+			Size = UDim2.new(1, -28, 0, not u42 and 28 or 36),
+			ZIndex = 12
+		}
+
+        Frame = Instance.new("Frame")
+
+        if t56 then
+            for k, v in pairs(t56) do
+                Frame[k] = v
+            end
+        end
+
+        if v194 then
+            Frame.Parent = v194
+        end
+
+        local t57 = {
+			CornerRadius = UDim.new(0, 9)
+		}
+        local UICorner4 = Instance.new("UICorner")
+
+        if t57 then
+            for k, v in pairs(t57) do
+                UICorner4[k] = v
+            end
+        end
+
+        if Frame then
+            UICorner4.Parent = Frame
+        end
+
+        if Frame then
+            Frame:SetAttribute("th_bg", "card")
+
+            local card = t3.card
+
+            if card and Frame:IsA("GuiObject") then
+                Frame.BackgroundColor3 = card
+            end
+        end
+
+        local s4 = "line"
+        local t58 = {
+			Color = t3.line or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+
+        UIStroke = Instance.new("UIStroke")
+
+        if t58 then
+            for k, v in pairs(t58) do
+                UIStroke[k] = v
+            end
+        end
+
+        if Frame then
+            UIStroke.Parent = Frame
+        end
+
+        if s4 then
+            UIStroke:SetAttribute("th_stroke", s4)
+        end
+    end
+
+    local v244 = UIStroke
+
+    v245 = v86(Frame, "search", t3.mute, 13)
+    v245.Position = UDim2.fromOffset(8, 6)
+
+    local t59 = {
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, -40, 1, 0),
+		Position = UDim2.fromOffset(30, 0),
+		Font = t4.body,
+		PlaceholderText = "Filter this page",
+		PlaceholderColor3 = t3.mute,
+		Text = "",
+		TextColor3 = t3.text,
+		TextSize = not u42 and 12 or 14,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		ClearTextOnFocus = false,
+		ZIndex = 13
+	}
+    local TextBox = Instance.new("TextBox")
+
+    if t59 then
+        for k, v in pairs(t59) do
+            TextBox[k] = v
+        end
+    end
+
+    if Frame then
+        TextBox.Parent = Frame
+    end
+
+    v250 = TextBox
+
+    if v250 then
+        v250:SetAttribute("th_text", "text")
+
+        local text = t3.text
+
+        if text then
+            v250.TextColor3 = text
+        end
+    end
+
+    if v250 then
+        v250:SetAttribute("th_placeholder", "mute")
+
+        local mute = t3.mute
+
+        if mute and v250:IsA("TextBox") then
+            v250.PlaceholderColor3 = mute
+        end
+    end
+
+    v250.Focused:Connect(function()
+        v81(v244, 0.12, {
+			Color = t3.accent
+		})
+    end)
+    v250.FocusLost:Connect(function()
+        v81(v244, 0.12, {
+			Color = t3.line
+		})
+    end)
+
+    local v253 = not u42 and 80 or 88
+    local t60 = {
+		BackgroundTransparency = 1,
+		Position = UDim2.fromOffset(0, v253),
+		Size = UDim2.new(1, 0, 1, -v253),
+		ClipsDescendants = true,
+		ZIndex = 12
+	}
+    local Frame10 = Instance.new("Frame")
+
+    if t60 then
+        for k, v in pairs(t60) do
+            Frame10[k] = v
+        end
+    end
+
+    if v194 then
+        Frame10.Parent = v194
+    end
+
+    local v258 = Frame10
+
+    function v259(p42, p43)
+        local t61 = {
+			Name = p42,
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 1, 0),
+			CanvasSize = UDim2.new(0, 0, 0, 0),
+			AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			ScrollBarThickness = not u42 and 4 or 8,
+			ScrollBarImageColor3 = t3.line,
+			BorderSizePixel = 0,
+			Visible = false,
+			ZIndex = 13
+		}
+        local v467 = v258
+        local ScrollingFrame = Instance.new("ScrollingFrame")
+
+        if t61 then
+            for k, v in pairs(t61) do
+                ScrollingFrame[k] = v
+            end
+        end
+
+        if v467 then
+            ScrollingFrame.Parent = v467
+        end
+
+        if ScrollingFrame then
+            ScrollingFrame:SetAttribute("th_scroll", "line")
+
+            local line = t3.line
+
+            if line and ScrollingFrame:IsA("ScrollingFrame") then
+                ScrollingFrame.ScrollBarImageColor3 = line
+            end
+        end
+
+        v84(ScrollingFrame, 12, 4, 12, 14)
+
+        local t62 = {
+			FillDirection = Enum.FillDirection.Vertical,
+			Padding = UDim.new(0, 8),
+			SortOrder = Enum.SortOrder.LayoutOrder
+		}
+        local UIListLayout = Instance.new("UIListLayout")
+
+        if t62 then
+            for k, v in pairs(t62) do
+                UIListLayout[k] = v
+            end
+        end
+
+        if ScrollingFrame then
+            UIListLayout.Parent = ScrollingFrame
+        end
+
+        local t63 = {
+			name = p42,
+			subtitle = p43,
+			scroll = ScrollingFrame,
+			items = {},
+			n = 0,
+			card = nil,
+			lastRule = nil
+		}
+
+        t12[p42] = t63
+        t13[#t13 + 1] = p42
+
+        return t63
+    end
+
+    local t64 = {}
+
+    function v261(p44, p45, p46)
+        local t65 = {
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 0, 18),
+			Font = t4.mono,
+			Text = p44,
+			TextColor3 = t3.mute,
+			TextSize = 9,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			LayoutOrder = p46,
+			ZIndex = 12
+		}
+        local v481 = v171
+        local TextLabel = Instance.new("TextLabel")
+
+        if t65 then
+            for k, v in pairs(t65) do
+                TextLabel[k] = v
+            end
+        end
+
+        if v481 then
+            TextLabel.Parent = v481
+        end
+
+        if TextLabel then
+            TextLabel:SetAttribute("th_text", "mute")
+
+            local mute = t3.mute
+
+            if mute then
+                TextLabel.TextColor3 = mute
+            end
+        end
+
+        for i, v in ipairs(p45) do
+            local t66 = {
+				BackgroundColor3 = t3.rail,
+				BackgroundTransparency = 1,
+				Size = UDim2.new(1, 0, 0, not u42 and 26 or 34),
+				Text = "",
+				AutoButtonColor = false,
+				LayoutOrder = p46 + i,
+				ZIndex = 12
+			}
+            local v489 = v171
+            local TextButton = Instance.new("TextButton")
+
+            if t66 then
+                for k, v2 in pairs(t66) do
+                    TextButton[k] = v2
+                end
+            end
+
+            if v489 then
+                TextButton.Parent = v489
+            end
+
+            local v493 = TextButton
+            local t67 = {
+				CornerRadius = UDim.new(0, 6)
+			}
+            local UICorner = Instance.new("UICorner")
+
+            if t67 then
+                for k, v3 in pairs(t67) do
+                    UICorner[k] = v3
+                end
+            end
+
+            if v493 then
+                UICorner.Parent = v493
+            end
+
+            local v498 = v86(v493, t8[v] or "layers", t3.mute, 13)
+
+            v498.Name = "Ico"
+            v498.Position = UDim2.fromOffset(6, 5)
+
+            local t68 = {
+				BackgroundTransparency = 1,
+				Position = UDim2.fromOffset(26, 0),
+				Size = UDim2.new(1, -30, 1, 0),
+				Font = t4.body,
+				Text = v,
+				TextColor3 = t3.dim,
+				TextSize = 12,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				ZIndex = 13
+			}
+            local TextLabel5 = Instance.new("TextLabel")
+
+            if t68 then
+                for k, v5 in pairs(t68) do
+                    TextLabel5[k] = v5
+                end
+            end
+
+            if v493 then
+                TextLabel5.Parent = v493
+            end
+
+            if TextLabel5 then
+                TextLabel5:SetAttribute("th_text", "dim")
+
+                local dim = t3.dim
+
+                if dim then
+                    TextLabel5.TextColor3 = dim
+                end
+            end
+
+            t64[v] = {
+				btn = v493,
+				lab = TextLabel5,
+				ico = v498
+			}
+            v493.MouseEnter:Connect(function()
+                if t64[v].on then
+                    return
+                end
+
+                v81(v493, 0.12, {
+					BackgroundTransparency = 0,
+					BackgroundColor3 = t3.lift
+				})
+            end)
+            v493.MouseLeave:Connect(function()
+                if t64[v].on then
+                    return
+                end
+
+                v81(v493, 0.12, {
+					BackgroundTransparency = 1
+				})
+            end)
+            v493.MouseButton1Click:Connect(function()
+                u68(v)
+            end)
+        end
+    end
+    function v262(p47, p48)
+        for _, descendant in ipairs(p47:GetDescendants()) do
+            if descendant:IsA("ImageLabel") then
+                descendant.ImageColor3 = p48
+            elseif descendant:IsA("Frame") and descendant.BackgroundTransparency < 1 then
+                descendant.BackgroundColor3 = p48
+            elseif descendant:IsA("UIStroke") then
+                descendant.Color = p48
+            end
+        end
+    end
+    function u68(p49)
+        local v509 = t12[p49]
+
+        if not v509 then
+            return
+        end
+
+        u66 = v509
+
+        for k, v in pairs(t64) do
+            local v512 = k == p49
+
+            v.on = v512
+            v.lab.TextColor3 = v512 and t3.text or t3.dim
+            v.lab.Font = v512 and t4.mid or t4.body
+            v.btn.BackgroundColor3 = v512 and t3.card or t3.rail
+            v.btn.BackgroundTransparency = not v512 and 1 or 0
+            v262(v.ico, v512 and t3.accent or t3.mute)
+        end
+
+        for _, v in pairs(t12) do
+            v.scroll.Visible = v == v509
+
+            if v == v509 then
+                v.scroll.CanvasPosition = Vector2.zero
+            end
+        end
+
+        v204.Text = p49
+        v210.Text = v509.subtitle or ""
+        u69(v509, v250.Text)
+    end
+    function u69(p50, p51)
+        local v517 = string.lower(p51 or "")
+        local inst
+        local v519 = false
+        for _, v in ipairs(p50.items) do
+            if v.kind == "section" then
+                if inst then
+                    inst.Visible = v517 == "" or v519
+                end
+
+                inst = v.inst
+                v519 = false
+            else
+                local v522 = (v517 == "" or string.find(v.q, v517, 1, true) ~= nil) and (not v.visibleIf or v.visibleIf() or false)
+
+                v.inst.Visible = v522
+
+                if v522 then
+                    v519 = true
+                end
+            end
+        end
+        if inst then
+            inst.Visible = v517 == "" or v519
+        end
+    end
+
+    v250:GetPropertyChangedSignal("Text"):Connect(function()
+        if u66 then
+            u69(u66, v250.Text)
+        end
+    end)
+
+    function v263(p52, p53)
+        p52.lastRule = nil
+
+        local t69 = {
+			AutomaticSize = Enum.AutomaticSize.Y,
+			Size = UDim2.new(1, 0, 0, 0),
+			BackgroundColor3 = t3.card,
+			BorderSizePixel = 0
+		}
+
+        p52.n = p52.n + 1
+        t69.LayoutOrder = p52.n
+        t69.ZIndex = 13
+
+        local scroll = p52.scroll
+        local Frame11 = Instance.new("Frame")
+
+        if t69 then
+            for k, v in pairs(t69) do
+                Frame11[k] = v
+            end
+        end
+
+        if scroll then
+            Frame11.Parent = scroll
+        end
+
+        local t70 = {
+			CornerRadius = UDim.new(0, 8)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t70 then
+            for k, v in pairs(t70) do
+                UICorner[k] = v
+            end
+        end
+
+        if Frame11 then
+            UICorner.Parent = Frame11
+        end
+
+        local s5 = "line"
+        local t71 = {
+			Color = t3.line or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+        local UIStroke4 = Instance.new("UIStroke")
+
+        if t71 then
+            for k, v in pairs(t71) do
+                UIStroke4[k] = v
+            end
+        end
+
+        if Frame11 then
+            UIStroke4.Parent = Frame11
+        end
+
+        if s5 then
+            UIStroke4:SetAttribute("th_stroke", s5)
+        end
+
+        if Frame11 then
+            Frame11:SetAttribute("th_bg", "card")
+
+            local card = t3.card
+
+            if card and Frame11:IsA("GuiObject") then
+                Frame11.BackgroundColor3 = card
+            end
+        end
+
+        local t72 = {
+			FillDirection = Enum.FillDirection.Vertical,
+			Padding = UDim.new(0, 0),
+			SortOrder = Enum.SortOrder.LayoutOrder
+		}
+        local UIListLayout = Instance.new("UIListLayout")
+
+        if t72 then
+            for k, v in pairs(t72) do
+                UIListLayout[k] = v
+            end
+        end
+
+        if Frame11 then
+            UIListLayout.Parent = Frame11
+        end
+
+        local t73 = {
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 0, 26),
+			LayoutOrder = 0,
+			ZIndex = 14
+		}
+        local Frame12 = Instance.new("Frame")
+
+        if t73 then
+            for k, v in pairs(t73) do
+                Frame12[k] = v
+            end
+        end
+
+        if Frame11 then
+            Frame12.Parent = Frame11
+        end
+
+        local t74 = {
+			BackgroundColor3 = t3.accent,
+			BorderSizePixel = 0,
+			Position = UDim2.fromOffset(12, 12),
+			Size = UDim2.fromOffset(10, 2),
+			ZIndex = 15
+		}
+        local Frame13 = Instance.new("Frame")
+
+        if t74 then
+            for k, v in pairs(t74) do
+                Frame13[k] = v
+            end
+        end
+
+        if Frame12 then
+            Frame13.Parent = Frame12
+        end
+
+        if Frame13 then
+            Frame13:SetAttribute("th_bg", "accent")
+
+            local accent = t3.accent
+
+            if accent and Frame13:IsA("GuiObject") then
+                Frame13.BackgroundColor3 = accent
+            end
+        end
+
+        local t75 = {
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(28, 0),
+			Size = UDim2.new(1, -36, 1, 0),
+			Font = t4.mono,
+			Text = p53,
+			TextColor3 = t3.dim,
+			TextSize = 10,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			ZIndex = 15
+		}
+        local TextLabel = Instance.new("TextLabel")
+
+        if t75 then
+            for k, v in pairs(t75) do
+                TextLabel[k] = v
+            end
+        end
+
+        if Frame12 then
+            TextLabel.Parent = Frame12
+        end
+
+        local TextLabel6 = Frame12:FindFirstChildWhichIsA("TextLabel")
+
+        if TextLabel6 then
+            TextLabel6:SetAttribute("th_text", "dim")
+
+            local dim = t3.dim
+
+            if dim then
+                TextLabel6.TextColor3 = dim
+            end
+        end
+
+        p52.card = Frame11
+        p52.items[#p52.items + 1] = {
+			kind = "section",
+			inst = Frame11,
+			q = string.lower(p53)
+		}
+
+        return Frame11
+    end
+
+    local function v264(p54, p55, p56, p57)
+        local v564 = p57 or (not u42 and 132 or 140)
+        local v565 = p54.card or p54.scroll
+        local v566 = not p56 and 36 or 46
+        if u42 then
+            v566 = not p56 and 44 or 54
+        end
+        local t76 = {
+			BackgroundColor3 = t3.card,
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 0, v566)
+		}
+        p54.n = p54.n + 1
+        t76.LayoutOrder = p54.n
+        t76.ZIndex = 14
+        local Frame14 = Instance.new("Frame")
+        if t76 then
+            for k, v in pairs(t76) do
+                Frame14[k] = v
+            end
+        end
+        if v565 then
+            Frame14.Parent = v565
+        end
+        local v571 = Frame14
+        local t77 = {
+			BackgroundColor3 = t3.line,
+			BorderSizePixel = 0,
+			Position = UDim2.new(0, 14, 0, 0),
+			Size = UDim2.new(1, -28, 0, 1),
+			Visible = p54.lastRule ~= nil,
+			ZIndex = 15
+		}
+        local Frame15 = Instance.new("Frame")
+        if t77 then
+            for k, v in pairs(t77) do
+                Frame15[k] = v
+            end
+        end
+        if v571 then
+            Frame15.Parent = v571
+        end
+        p54.lastRule = Frame15
+        if Frame15 then
+            Frame15:SetAttribute("th_bg", "line")
+
+            local line = t3.line
+
+            if line and Frame15:IsA("GuiObject") then
+                Frame15.BackgroundColor3 = line
+            end
+        end
+        if v571 then
+            v571:SetAttribute("th_bg", "card")
+
+            local card = t3.card
+
+            if card and v571:IsA("GuiObject") then
+                v571.BackgroundColor3 = card
+            end
+        end
+        v571:SetAttribute("th_hover", "lift")
+        v571:SetAttribute("th_row", true)
+        v571.MouseEnter:Connect(function()
+            v571:SetAttribute("th_over", true)
+            v81(v571, 0.1, {
+				BackgroundTransparency = 0,
+				BackgroundColor3 = t3.lift
+			})
+        end)
+        v571.MouseLeave:Connect(function()
+            v571:SetAttribute("th_over", false)
+            v81(v571, 0.1, {
+				BackgroundTransparency = 1,
+				BackgroundColor3 = t3.card
+			})
+        end)
+        local t78 = {
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(12, not p56 and 10 or 6),
+			Size = UDim2.new(1, -(v564 + 20), 0, 14),
+			Font = t4.mid,
+			Text = p55,
+			TextColor3 = t3.text,
+			TextSize = 12,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextTruncate = Enum.TextTruncate.AtEnd,
+			ZIndex = 15
+		}
+        local TextLabel = Instance.new("TextLabel")
+        if t78 then
+            for k, v in pairs(t78) do
+                TextLabel[k] = v
+            end
+        end
+        if v571 then
+            TextLabel.Parent = v571
+        end
+        if TextLabel then
+            TextLabel:SetAttribute("th_text", "text")
+
+            local text = t3.text
+
+            if text then
+                TextLabel.TextColor3 = text
+            end
+        end
+        local TextLabel7
+        if p56 then
+            local t79 = {
+				BackgroundTransparency = 1,
+				Position = UDim2.fromOffset(12, 22),
+				Size = UDim2.new(1, -(v564 + 20), 0, 20),
+				Font = t4.body,
+				Text = p56,
+				TextColor3 = t3.dim,
+				TextSize = 11,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				TextYAlignment = Enum.TextYAlignment.Top,
+				TextWrapped = true,
+				ZIndex = 15
+			}
+
+            TextLabel7 = Instance.new("TextLabel")
+
+            if t79 then
+                for k, v in pairs(t79) do
+                    TextLabel7[k] = v
+                end
+            end
+
+            if v571 then
+                TextLabel7.Parent = v571
+            end
+
+            if TextLabel7 then
+                TextLabel7:SetAttribute("th_text", "dim")
+
+                local dim = t3.dim
+
+                if dim then
+                    TextLabel7.TextColor3 = dim
+                end
+            end
+        end
+        local t80 = {
+			AnchorPoint = Vector2.new(1, 0.5),
+			BackgroundTransparency = 1,
+			Position = UDim2.new(1, -10, 0.5, 0),
+			Size = UDim2.fromOffset(v564, not u42 and 26 or 32),
+			ZIndex = 16
+		}
+        local Frame16 = Instance.new("Frame")
+        if t80 then
+            for k, v in pairs(t80) do
+                Frame16[k] = v
+            end
+        end
+        if v571 then
+            Frame16.Parent = v571
+        end
+        p54.items[#p54.items + 1] = {
+			kind = "row",
+			inst = v571,
+			q = string.lower(p55 .. " " .. (p56 or ""))
+		}
+
+        return v571, Frame16, TextLabel7
+    end
+
+    u265 = false
+    u266 = false
+
+    local t81 = {
+		ImportPaste = true,
+		Flight = true,
+		HopNearNight = true,
+		CfgSaveName = true,
+		PhoneUI = true
+	}
+
+    v268 = v51().gen or 1
+
+    local function v269(...)
+        warn("[Kira/cfg]", ...)
+    end
+
+    function v270()
+        for k, v in pairs(t10) do
+            if v and v.kind == "input" and v.box then
+                pcall(function()
+                    local boxText = v.box.Text
+
+                    if type(boxText) ~= "string" then
+                        return
+                    end
+
+                    if boxText ~= "" or t9[k] == nil or t9[k] == "" then
+                        t9[k] = boxText
+                    end
+                end)
+            end
+        end
+
+        local t82 = {}
+
+        for k, v in pairs(t9) do
+            if not t81[k] and (k ~= "HookUrl" or t9.ExportUrl) then
+                local v597 = type(v)
+
+                if v597 == "boolean" or v597 == "number" or v597 == "string" then
+                    t82[k] = v
+                elseif v597 == "table" then
+                    t82[k] = v
+                else
+                    local ok, result = pcall(function()
+                        return v.Name
+                    end)
+
+                    if ok and type(result) == "string" then
+                        t82[k] = result
+                    end
+                end
+            end
+        end
+
+        return t82
+    end
+
+    local function v271(p58, p59)
+        if type(p58) ~= "string" or p58 == "" then
+            return false
+        end
+
+        if type(makefolder) == "function" then
+            pcall(makefolder, "Kira")
+        end
+
+        local v602 = "Kira" .. "/" .. v26(t1.Game)
+
+        if type(makefolder) == "function" then
+            pcall(makefolder, v602)
+        end
+
+        local v603 = ("Kira" .. "/" .. v26(t1.Game)) .. "/cache"
+
+        if type(makefolder) == "function" then
+            pcall(makefolder, v603)
+        end
+
+        local v604 = ("Kira" .. "/" .. v26(t1.Game)) .. "/configs"
+
+        if type(makefolder) == "function" then
+            pcall(makefolder, v604)
+        end
+
+        local v605 = p58:match("^(.*)/[^/]+$")
+
+        if v605 and type(makefolder) == "function" then
+            pcall(makefolder, v605)
+        end
+
+        local ok, result = pcall(writefile, p58, p59)
+
+        if not ok then
+            v269("write fail", p58, (tostring(result)))
+
+            return false
+        end
+
+        return true
+    end
+
+    function v272(p60)
+        if u265 and not p60 then
+            return
+        end
+
+        if not writefile then
+            v269("writefile missing")
+
+            return
+        end
+
+        local ok, result = pcall(function()
+            return HttpService:JSONEncode((v270()))
+        end)
+
+        if not ok or type(result) ~= "string" then
+            v269("encode fail", (tostring(result)))
+
+            return
+        end
+
+        if not v271((("Kira" .. "/" .. v26(t1.Game)) .. "/cache") .. "/" .. v26(LocalPlayer and LocalPlayer.Name or "Player") .. "-config.json", result) then
+            v271((("Kira" .. "/" .. v26(t1.Game)) .. "/cache") .. "/" .. str .. "-config.json", result)
+        end
+    end
+
+    local function v273(p61, p62)
+        local v614 = t10[p61]
+
+        if v614 and (v614.kind == "keybind" and type(p62) == "string") then
+            local ok, result = pcall(function()
+                return Enum.KeyCode[p62]
+            end)
+
+            if ok and result then
+                return result
+            end
+        end
+
+        if p61 == "Theme" and (p62 == "Dusk" or p62 == "dusk") then
+            return "Dark"
+        end
+
+        return p62
+    end
+
+    function v274(p63, p64)
+        if type(p63) ~= "table" then
+            return
+        end
+
+        u265 = true
+
+        local ok, result = pcall(function()
+            if p63.NeverTraps == true then
+                p63.AntiTrap = true
+            end
+
+            p63.NeverTraps = nil
+            p63.RarityZones = nil
+            p63.HopMinPlayers = nil
+            p63.HopMaxPlayers = nil
+            p63.AntiDie = nil
+
+            if p63.StealMode == "Rarity snipe" then
+                p63.StealMode = "Egg type filter"
+            end
+
+            for k, v in pairs(p63) do
+                if k ~= "ImportPaste" then
+                    local v1281 = v273(k, v)
+                    local v1282 = t10[k]
+
+                    if v1282 and v1282.set then
+                        pcall(v1282.set, v1281)
+
+                        if p64 and v1282.on and v1282.kind ~= "slider" and k ~= "Flight" and k ~= "CfgPreset" then
+                            pcall(v1282.on, t9[k])
+                        end
+                    else
+                        t9[k] = v1281
+                    end
+                end
+            end
+        end)
+
+        u265 = false
+
+        if not ok then
+            v269("apply fail", (tostring(result)))
+        end
+    end
+
+    local function v275(p65)
+        if type(p65) ~= "string" or p65 == "" or not readfile then
+            return
+        end
+
+        local ok, result = pcall(readfile, p65)
+
+        if ok and type(result) == "string" and result ~= "" then
+            local ok2, result2 = pcall(function()
+                return HttpService:JSONDecode(result)
+            end)
+
+            if ok2 and type(result2) == "table" then
+                return result2, p65
+            end
+        end
+    end
+    local function v276()
+        local t83 = { "default" }
+        local t84 = {
+			default = true
+		}
+
+        if type(listfiles) == "function" then
+            local ok, result = pcall(listfiles, ("Kira" .. "/" .. v26(t1.Game)) .. "/configs")
+
+            if ok and type(result) == "table" then
+                for i = 1, #result do
+                    local v631 = tostring(result[i] or ""):gsub("\\", "/"):match("([^/]+)%.json$")
+
+                    if v631 and not t84[v631] then
+                        t84[v631] = true
+                        t83[#t83 + 1] = v631
+                    end
+                end
+            end
+        elseif type(isfile) == "function" then
+            local v632 = tostring(t9.CfgPreset or ""):gsub("^%s+", ""):gsub("%s+$", "")
+            local v633 = if v632 ~= "" then v26(v632) else "default"
+
+            if v633 ~= "default" and not t84[v633] then
+                t83[#t83 + 1] = v633
+            end
+        end
+
+        table.sort(t83, function(p66, p67)
+            if p66 == "default" then
+                return true
+            end
+
+            if p67 == "default" then
+                return false
+            end
+
+            return p66 < p67
+        end)
+
+        return t83
+    end
+
+    function v277()
+        local CfgPreset = t10.CfgPreset
+
+        if not CfgPreset or not CfgPreset.options then
+            return
+        end
+
+        local v635 = v276()
+
+        for i = #CfgPreset.options, 1, -1 do
+            CfgPreset.options[i] = nil
+        end
+
+        for i = 1, #v635 do
+            CfgPreset.options[i] = v635[i]
+        end
+
+        local v638 = tostring(t9.CfgPreset or ""):gsub("^%s+", ""):gsub("%s+$", "")
+        local v639 = if v638 ~= "" then v26(v638) else "default"
+        local v640 = false
+
+        for i = 1, #v635 do
+            if v639 == v635[i] then
+                v640 = true
+
+                break
+            end
+        end
+
+        if not v640 then
+            v639 = "default"
+            t9.CfgPreset = v639
+        end
+
+        if CfgPreset.set then
+            pcall(CfgPreset.set, v639)
+
+            return
+        end
+
+        if CfgPreset.refresh then
+            pcall(CfgPreset.refresh)
+        end
+    end
+    function v278(p68)
+        local v643 = tostring(p68 or ""):gsub("^%s+", ""):gsub("%s+$", "")
+        local v644 = if v643 ~= "" then v26(v643) else "default"
+        local ok, result = pcall(function()
+            return HttpService:JSONEncode((v270()))
+        end)
+
+        if not ok or type(result) ~= "string" then
+            v269("named encode fail", (tostring(result)))
+
+            return false
+        end
+
+        local v647 = v271
+        local v648 = ("Kira" .. "/" .. v26(t1.Game)) .. "/configs"
+        local v649 = tostring(v644 or ""):gsub("^%s+", ""):gsub("%s+$", "")
+
+        if not v647(v648 .. "/" .. ((if v649 ~= "" then v26(v649) else "default")) .. ".json", result) then
+            return false
+        end
+
+        t9.CfgPreset = v644
+        v277()
+        v269("saved named", v644)
+
+        return true
+    end
+    function v279(p69, p70)
+        local v652 = tostring(p69 or ""):gsub("^%s+", ""):gsub("%s+$", "")
+        local v653 = if v652 ~= "" then v26(v652) else "default"
+        local v654 = v275
+        local v655 = ("Kira" .. "/" .. v26(t1.Game)) .. "/configs"
+        local v656 = tostring(v653 or ""):gsub("^%s+", ""):gsub("%s+$", "")
+        local v657, v658 = v654(v655 .. "/" .. ((if v656 ~= "" then v26(v656) else "default")) .. ".json")
+
+        if not v657 then
+            v269("no named config", v653)
+
+            return false
+        end
+
+        v274(v657, p70)
+        t9.Flight = false
+
+        if t10.Flight and t10.Flight.set then
+            pcall(t10.Flight.set, false)
+        end
+
+        t9.CfgPreset = v653
+        u71(t9.Theme or "Dark")
+
+        local num = tonumber(t9.UIScale)
+
+        if num then
+            v108.Scale = num / 100
+        end
+
+        v272(true)
+        v269("loaded named", v658)
+
+        return true
+    end
+    function v280(p71)
+        if not readfile then
+            v269("readfile missing")
+
+            return false
+        end
+
+        local v661, v662 = v275((("Kira" .. "/" .. v26(t1.Game)) .. "/cache") .. "/" .. v26(LocalPlayer and LocalPlayer.Name or "Player") .. "-config.json")
+
+        if not v661 then
+            v661, v662 = v275((("Kira" .. "/" .. v26(t1.Game)) .. "/cache") .. "/" .. str .. "-config.json")
+        end
+
+        if not v661 then
+            local v663 = v275
+            local v664 = ("Kira" .. "/" .. v26(t1.Game)) .. "/configs"
+            local v665 = tostring("default" or ""):gsub("^%s+", ""):gsub("%s+$", "")
+
+            v661, v662 = v663(v664 .. "/" .. ((if v665 ~= "" then v26(v665) else "default")) .. ".json")
+        end
+
+        if not v661 then
+            local t85 = {
+				("Kira" .. "/" .. v26(t1.Game)) .. "/config.json",
+				"Kira" .. "/config.json",
+				"Kira" .. "/" .. t1.Game .. "/config.json",
+				("Kira" .. "/" .. v26(t1.Game)) .. "/Kira.json",
+				"Kira" .. "/Kira.json",
+				"Kira.json"
+			}
+
+            for i = 1, #t85 do
+                v661, v662 = v275(t85[i])
+
+                if v661 then
+                    break
+                end
+            end
+        end
+
+        if not v661 then
+            v277()
+
+            return false
+        end
+
+        v274(v661, p71)
+        t9.Flight = false
+
+        if t10.Flight and t10.Flight.set then
+            pcall(t10.Flight.set, false)
+        end
+
+        u71(t9.Theme or "Dark")
+
+        local num = tonumber(t9.UIScale)
+
+        if num then
+            v108.Scale = num / 100
+        end
+
+        if t9.StartMin then
+            u70(false)
+        end
+
+        for k, v in pairs(t10) do
+            if v and v.set and t9[k] ~= nil then
+                if v.kind == "toggle" then
+                    pcall(v.set, t9[k] == true)
+                elseif v.kind == "choice" or v.kind == "dropdown" or v.kind == "input" or v.kind == "slider" then
+                    pcall(v.set, t9[k])
+                end
+            end
+        end
+
+        if u66 then
+            u69(u66, v250.Text)
+        end
+
+        v277()
+
+        if v662 ~= (("Kira" .. "/" .. v26(t1.Game)) .. "/cache") .. "/" .. v26(LocalPlayer and LocalPlayer.Name or "Player") .. "-config.json" then
+            v272(true)
+        end
+
+        v269("loaded", v662)
+
+        return true
+    end
+    function v281(p72, p73, p74, p75, p76, p77)
+        t9[p73] = not not p76
+
+        local v681 = (not p77 or not p77.options) and 132 or 214
+
+        if u42 then
+            v681 = (not p77 or not p77.options) and 148 or 220
+        end
+
+        local _, v683, v684 = v264(p72, p74, p75, v681)
+
+        if p77 and p77.options then
+            t9[p77.flag] = t9[p77.flag] or p77.options[1]
+
+            local t86 = {
+				AnchorPoint = Vector2.new(1, 0.5),
+				BackgroundColor3 = t3.fill,
+				Position = UDim2.new(1, -40, 0.5, 0),
+				Size = UDim2.fromOffset(72, 22),
+				Font = t4.mid,
+				Text = tostring(t9[p77.flag]) .. " ▾",
+				TextColor3 = t3.text,
+				TextSize = 10,
+				TextTruncate = Enum.TextTruncate.AtEnd,
+				AutoButtonColor = false,
+				ZIndex = 17
+			}
+            local TextButton = Instance.new("TextButton")
+
+            if t86 then
+                for k, v in pairs(t86) do
+                    TextButton[k] = v
+                end
+            end
+
+            if v683 then
+                TextButton.Parent = v683
+            end
+
+            local v689 = TextButton
+            local t87 = {
+				CornerRadius = UDim.new(0, 6)
+			}
+            local UICorner = Instance.new("UICorner")
+
+            if t87 then
+                for k, v in pairs(t87) do
+                    UICorner[k] = v
+                end
+            end
+
+            if v689 then
+                UICorner.Parent = v689
+            end
+
+            local s6 = "line"
+            local t88 = {
+				Color = t3.line or t3.line,
+				Thickness = 1,
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			}
+            local UIStroke5 = Instance.new("UIStroke")
+
+            if t88 then
+                for k, v in pairs(t88) do
+                    UIStroke5[k] = v
+                end
+            end
+
+            if v689 then
+                UIStroke5.Parent = v689
+            end
+
+            if s6 then
+                UIStroke5:SetAttribute("th_stroke", s6)
+            end
+
+            if v689 then
+                v689:SetAttribute("th_bg", "fill")
+
+                local fill = t3.fill
+
+                if fill and v689:IsA("GuiObject") then
+                    v689.BackgroundColor3 = fill
+                end
+            end
+
+            if v689 then
+                v689:SetAttribute("th_text", "text")
+
+                local text = t3.text
+
+                if text then
+                    v689.TextColor3 = text
+                end
+            end
+
+            v689.MouseButton1Click:Connect(function()
+                if u67 then
+                    u67(v689, p77.flag, p77.options)
+                end
+            end)
+            t10[p77.flag] = {
+				kind = "choice",
+				chip = v689,
+				set = function(p78)
+                t9[p77.flag] = p78
+                v689.Text = tostring(p78) .. " ▾"
+
+                if u265 then
+                    return
+                end
+
+                if u266 then
+                    return
+                end
+
+                u266 = true
+
+                local v1286 = v268
+
+                task.delay(0.35, function()
+                    u266 = false
+
+                    if v1286 ~= (v51().gen or 0) then
+                        return
+                    end
+
+                    v272()
+                end)
+            end
+			}
+        end
+
+        local t89 = {
+			AnchorPoint = Vector2.new(1, 0.5),
+			BackgroundColor3 = t9[p73] and t3.accent or t3.fill,
+			Position = UDim2.new(1, 0, 0.5, 0),
+			Size = UDim2.fromOffset(not u42 and 34 or 42, not u42 and 18 or 24),
+			Text = "",
+			AutoButtonColor = false,
+			ZIndex = 17
+		}
+        local TextButton = Instance.new("TextButton")
+
+        if t89 then
+            for k, v in pairs(t89) do
+                TextButton[k] = v
+            end
+        end
+
+        if v683 then
+            TextButton.Parent = v683
+        end
+
+        local v705 = TextButton
+        local v706 = not u42 and 9 or 12
+        local t90 = {
+			CornerRadius = UDim.new(0, v706 or 8)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t90 then
+            for k, v in pairs(t90) do
+                UICorner[k] = v
+            end
+        end
+
+        if v705 then
+            UICorner.Parent = v705
+        end
+
+        local v711 = v83(v705, t9[p73] and t3.accent or t3.line, 1)
+        local v712 = u42 and UDim2.new(1, -20, 0.5, -8) or UDim2.new(1, -16, 0.5, -6)
+        local uDim2 = UDim2.fromOffset(2, 2)
+        local v714 = not u42 and 14 or 16
+        local t91 = {
+			BackgroundColor3 = t9[p73] and t3.ink or t3.text,
+			Position = t9[p73] and v712 or uDim2,
+			Size = UDim2.fromOffset(v714, v714),
+			ZIndex = 18
+		}
+        local Frame17 = Instance.new("Frame")
+
+        if t91 then
+            for k, v in pairs(t91) do
+                Frame17[k] = v
+            end
+        end
+
+        if v705 then
+            Frame17.Parent = v705
+        end
+
+        local v719 = Frame17
+        local v720 = not u42 and 7 or 8
+        local t92 = {
+			CornerRadius = UDim.new(0, v720 or 8)
+		}
+        local UICorner5 = Instance.new("UICorner")
+
+        if t92 then
+            for k, v in pairs(t92) do
+                UICorner5[k] = v
+            end
+        end
+
+        if v719 then
+            UICorner5.Parent = v719
+        end
+
+        local function v725(p79)
+            v81(v705, 0.16, {
+				BackgroundColor3 = p79 and t3.accent or t3.fill
+			}, Enum.EasingStyle.Quart)
+            v81(v719, 0.16, {
+				Position = p79 and v712 or uDim2,
+				BackgroundColor3 = p79 and t3.ink or t3.text
+			}, Enum.EasingStyle.Quart)
+            v81(v711, 0.16, {
+				Color = p79 and t3.accent or t3.line
+			})
+        end
+
+        v705.MouseButton1Click:Connect(function()
+            local v1288 = not t9[p73]
+
+            t9[p73] = v1288
+            v725(v1288)
+
+            if not u265 and not u266 then
+                u266 = true
+
+                local v1289 = v268
+
+                task.delay(0.35, function()
+                    u266 = false
+
+                    if v1289 ~= (v51().gen or 0) then
+                        return
+                    end
+
+                    v272()
+                end)
+            end
+
+            local v1290 = t10[p73]
+
+            task.defer(function()
+                if v1290 and v1290.on then
+                    pcall(v1290.on, v1288)
+                end
+            end)
+        end)
+        t10[p73] = {
+			kind = "toggle",
+			status = v684,
+			set = function(p80)
+            t9[p73] = not not p80
+            v725(t9[p73])
+        end
+		}
+    end
+    function v282(p81, p82, p83, p84, p85, p86, p87, p88)
+        t9[p82] = p87
+
+        local v734, v735, v736 = v264(p81, p83, p84)
+
+        v734.Size = UDim2.new(1, 0, 0, 72)
+        v735.Size = UDim2.fromOffset(148, 48)
+
+        local t93 = {
+			BackgroundColor3 = t3.fill,
+			Size = UDim2.new(1, 0, 0, 20),
+			Font = t4.mono,
+			Text = tostring(p87) .. (p88 or ""),
+			TextColor3 = t3.accent,
+			TextSize = 12,
+			ZIndex = 17
+		}
+        local TextLabel = Instance.new("TextLabel")
+
+        if t93 then
+            for k, v in pairs(t93) do
+                TextLabel[k] = v
+            end
+        end
+
+        if v735 then
+            TextLabel.Parent = v735
+        end
+
+        local v741 = TextLabel
+        local t94 = {
+			CornerRadius = UDim.new(0, 5)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t94 then
+            for k, v in pairs(t94) do
+                UICorner[k] = v
+            end
+        end
+
+        if v741 then
+            UICorner.Parent = v741
+        end
+
+        if v741 then
+            v741:SetAttribute("th_bg", "fill")
+
+            local fill = t3.fill
+
+            if fill and v741:IsA("GuiObject") then
+                v741.BackgroundColor3 = fill
+            end
+        end
+
+        if v741 then
+            v741:SetAttribute("th_text", "accent")
+
+            local accent = t3.accent
+
+            if accent then
+                v741.TextColor3 = accent
+            end
+        end
+
+        local t95 = {
+			BackgroundColor3 = t3.fill,
+			Position = UDim2.fromOffset(0, 32),
+			Size = UDim2.new(1, 0, 0, 10),
+			ZIndex = 17,
+			Active = true
+		}
+        local Frame18 = Instance.new("Frame")
+
+        if t95 then
+            for k, v in pairs(t95) do
+                Frame18[k] = v
+            end
+        end
+
+        if v735 then
+            Frame18.Parent = v735
+        end
+
+        local v752 = Frame18
+        local t96 = {
+			CornerRadius = UDim.new(0, 5)
+		}
+        local UICorner6 = Instance.new("UICorner")
+
+        if t96 then
+            for k, v in pairs(t96) do
+                UICorner6[k] = v
+            end
+        end
+
+        if v752 then
+            UICorner6.Parent = v752
+        end
+
+        local t97 = {
+			BackgroundColor3 = t3.accent,
+			Size = UDim2.new((p87 - p85) / math.max(p86 - p85, 1), 0, 1, 0),
+			ZIndex = 18
+		}
+        local Frame19 = Instance.new("Frame")
+
+        if t97 then
+            for k, v in pairs(t97) do
+                Frame19[k] = v
+            end
+        end
+
+        if v752 then
+            Frame19.Parent = v752
+        end
+
+        local v761 = Frame19
+        local t98 = {
+			CornerRadius = UDim.new(0, 5)
+		}
+        local UICorner7 = Instance.new("UICorner")
+
+        if t98 then
+            for k, v in pairs(t98) do
+                UICorner7[k] = v
+            end
+        end
+
+        if v761 then
+            UICorner7.Parent = v761
+        end
+
+        local t99 = {
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			BackgroundColor3 = t3.text,
+			Position = UDim2.new((p87 - p85) / math.max(p86 - p85, 1), 0, 0.5, 0),
+			Size = UDim2.fromOffset(18, 18),
+			ZIndex = 19
+		}
+        local Frame20 = Instance.new("Frame")
+
+        if t99 then
+            for k, v in pairs(t99) do
+                Frame20[k] = v
+            end
+        end
+
+        if v752 then
+            Frame20.Parent = v752
+        end
+
+        local v770 = Frame20
+        local t100 = {
+			CornerRadius = UDim.new(0, 9)
+		}
+        local UICorner8 = Instance.new("UICorner")
+
+        if t100 then
+            for k, v in pairs(t100) do
+                UICorner8[k] = v
+            end
+        end
+
+        if v770 then
+            UICorner8.Parent = v770
+        end
+
+        local s7 = "accentDeep"
+        local t101 = {
+			Color = t3.accentDeep or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+        local UIStroke6 = Instance.new("UIStroke")
+
+        if t101 then
+            for k, v in pairs(t101) do
+                UIStroke6[k] = v
+            end
+        end
+
+        if v770 then
+            UIStroke6.Parent = v770
+        end
+
+        if s7 then
+            UIStroke6:SetAttribute("th_stroke", s7)
+        end
+
+        local t102 = {
+			BackgroundTransparency = 1,
+			Text = "",
+			AutoButtonColor = false,
+			Active = true,
+			Position = UDim2.fromOffset(0, 20),
+			Size = UDim2.new(1, 0, 0, 32),
+			ZIndex = 21
+		}
+        local TextButton = Instance.new("TextButton")
+
+        if t102 then
+            for k, v in pairs(t102) do
+                TextButton[k] = v
+            end
+        end
+
+        if v735 then
+            TextButton.Parent = v735
+        end
+
+        local function v784(p89)
+            local num = tonumber(p89)
+
+            if not num then
+                return
+            end
+
+            local v1294 = math.clamp(math.floor(num + 0.5), p85, p86)
+
+            t9[p82] = v1294
+
+            local v1295 = (v1294 - p85) / math.max(p86 - p85, 1)
+
+            v761.Size = UDim2.new(v1295, 0, 1, 0)
+            v770.Position = UDim2.new(v1295, 0, 0.5, 0)
+            v741.Text = tostring(v1294) .. (p88 or "")
+
+            if u265 then
+                return
+            end
+
+            local v1296 = t10[p82]
+
+            if v1296 and v1296.on then
+                pcall(v1296.on, v1294)
+            end
+
+            if u265 then
+                return
+            end
+
+            if u266 then
+                return
+            end
+
+            u266 = true
+
+            local v1297 = v268
+
+            task.delay(0.35, function()
+                u266 = false
+
+                if v1297 ~= (v51().gen or 0) then
+                    return
+                end
+
+                v272()
+            end)
+        end
+
+        local u785 = false
+
+        TextButton.InputBegan:Connect(function(input)
+            local UserInputType = input.UserInputType
+
+            if UserInputType == Enum.UserInputType.MouseButton1 or UserInputType == Enum.UserInputType.Touch then
+                u785 = true
+
+                if p81 and p81.scroll then
+                    p81.scroll.ScrollingEnabled = false
+                end
+
+                if v171 then
+                    v171.ScrollingEnabled = false
+                end
+
+                local PositionX = input.Position.X
+                local v1304 = math.clamp((PositionX - v752.AbsolutePosition.X) / math.max(v752.AbsoluteSize.X, 1), 0, 1)
+
+                v784(p85 + v1304 * (p86 - p85))
+            end
+        end)
+
+        local connection = UserInputService.InputChanged:Connect(function(input)
+            if u785 then
+                local UserInputType = input.UserInputType
+
+                if UserInputType == Enum.UserInputType.MouseMovement or UserInputType == Enum.UserInputType.Touch then
+                    local PositionX = input.Position.X
+                    local v1308 = math.clamp((PositionX - v752.AbsolutePosition.X) / math.max(v752.AbsoluteSize.X, 1), 0, 1)
+
+                    v784(p85 + v1308 * (p86 - p85))
+                end
+            end
+        end)
+
+        if connection then
+            t14[#t14 + 1] = connection
+        end
+
+        local connection2 = UserInputService.InputEnded:Connect(function(input)
+            if u785 then
+                local UserInputType = input.UserInputType
+
+                if UserInputType == Enum.UserInputType.MouseButton1 or UserInputType == Enum.UserInputType.Touch then
+                    u785 = false
+
+                    if p81 and p81.scroll then
+                        p81.scroll.ScrollingEnabled = true
+                    end
+
+                    if v171 then
+                        v171.ScrollingEnabled = true
+                    end
+                end
+            end
+        end)
+
+        if connection2 then
+            t14[#t14 + 1] = connection2
+        end
+
+        t10[p82] = {
+			kind = "slider",
+			status = v736,
+			set = v784
+		}
+    end
+
+    local v283 = v82("Frame", {
+		Name = "Drops",
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 1),
+		Visible = false,
+		ZIndex = 90
+	}, v98)
+
+    function u284()
+        v283:ClearAllChildren()
+        v283.Visible = false
+    end
+
+    v103.MouseButton1Click:Connect(function()
+        u284()
+        v103.Visible = false
+    end)
+
+    function u67(p90, p91, p92)
+        u284()
+        v103.Visible = true
+        v103.ZIndex = 85
+        v283.Visible = true
+
+        local AbsolutePosition = p90.AbsolutePosition
+        local AbsoluteSize = p90.AbsoluteSize
+        local t103 = {
+			BackgroundColor3 = t3.card,
+			Position = UDim2.fromOffset(AbsolutePosition.X, AbsolutePosition.Y + AbsoluteSize.Y + 6),
+			Size = UDim2.fromOffset(math.max(AbsoluteSize.X, 120), #p92 * 28 + 10),
+			ZIndex = 95
+		}
+        local v794 = v283
+        local Frame21 = Instance.new("Frame")
+
+        if t103 then
+            for k, v in pairs(t103) do
+                Frame21[k] = v
+            end
+        end
+
+        if v794 then
+            Frame21.Parent = v794
+        end
+
+        local t104 = {
+			CornerRadius = UDim.new(0, 10)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t104 then
+            for k, v in pairs(t104) do
+                UICorner[k] = v
+            end
+        end
+
+        if Frame21 then
+            UICorner.Parent = Frame21
+        end
+
+        local s8 = "line"
+        local t105 = {
+			Color = t3.line or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+        local UIStroke7 = Instance.new("UIStroke")
+
+        if t105 then
+            for k, v in pairs(t105) do
+                UIStroke7[k] = v
+            end
+        end
+
+        if Frame21 then
+            UIStroke7.Parent = Frame21
+        end
+
+        if s8 then
+            UIStroke7:SetAttribute("th_stroke", s8)
+        end
+
+        if Frame21 then
+            Frame21:SetAttribute("th_bg", "card")
+
+            local card = t3.card
+
+            if card and Frame21:IsA("GuiObject") then
+                Frame21.BackgroundColor3 = card
+            end
+        end
+
+        local t106 = {
+			Padding = UDim.new(0, 2),
+			SortOrder = Enum.SortOrder.LayoutOrder
+		}
+        local UIListLayout = Instance.new("UIListLayout")
+
+        if t106 then
+            for k, v in pairs(t106) do
+                UIListLayout[k] = v
+            end
+        end
+
+        if Frame21 then
+            UIListLayout.Parent = Frame21
+        end
+
+        v84(Frame21, 5, 5, 5, 5)
+
+        for i, v in ipairs(p92) do
+            local v814 = v == t9[p91]
+            local t107 = {
+				BackgroundColor3 = v814 and t3.lift or t3.card,
+				Size = UDim2.new(1, 0, 0, 24),
+				Font = t4.body,
+				Text = "  " .. v,
+				TextColor3 = v814 and t3.accent or t3.text,
+				TextSize = 12,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				AutoButtonColor = false,
+				LayoutOrder = i,
+				ZIndex = 97
+			}
+            local TextButton = Instance.new("TextButton")
+
+            if t107 then
+                for k, v8 in pairs(t107) do
+                    TextButton[k] = v8
+                end
+            end
+
+            if Frame21 then
+                TextButton.Parent = Frame21
+            end
+
+            local t108 = {
+				CornerRadius = UDim.new(0, 6)
+			}
+            local UICorner9 = Instance.new("UICorner")
+
+            if t108 then
+                for k, v9 in pairs(t108) do
+                    UICorner9[k] = v9
+                end
+            end
+
+            if TextButton then
+                UICorner9.Parent = TextButton
+            end
+
+            TextButton.MouseButton1Click:Connect(function()
+                t9[p91] = v
+
+                local v1311 = t10[p91]
+
+                if v1311 and v1311.set then
+                    v1311.set(v)
+                end
+
+                if v1311 and v1311.on then
+                    pcall(v1311.on, v)
+                end
+
+                u284()
+                v103.Visible = false
+
+                if u265 then
+                    return
+                end
+
+                if u266 then
+                    return
+                end
+
+                u266 = true
+
+                local v1312 = v268
+
+                task.delay(0.35, function()
+                    u266 = false
+
+                    if v1312 ~= (v51().gen or 0) then
+                        return
+                    end
+
+                    v272()
+                end)
+            end)
+        end
+    end
+
+    local function v285(p93, p94)
+        if type(p93) ~= "table" then
+            return "none"
+        end
+
+        local n4 = 0
+        local v826 = #p94
+        local t109 = {}
+
+        for _, v in ipairs(p93) do
+            t109[v] = true
+        end
+
+        for _, v in ipairs(p94) do
+            if t109[v] then
+                n4 += 1
+            end
+        end
+
+        if n4 == 0 then
+            return "none"
+        end
+
+        if n4 == v826 then
+            return "all · " .. v826
+        end
+
+        return n4 .. " / " .. v826
+    end
+    local function v286(p95, p96)
+        local t110 = {
+			BackgroundColor3 = t3.fill,
+			Size = UDim2.new(1, 0, 0, 24),
+			Font = t4.mid,
+			Text = p96,
+			TextColor3 = t3.text,
+			TextSize = 11,
+			TextTruncate = Enum.TextTruncate.AtEnd,
+			AutoButtonColor = false,
+			ZIndex = 17
+		}
+        local TextButton = Instance.new("TextButton")
+
+        if t110 then
+            for k, v in pairs(t110) do
+                TextButton[k] = v
+            end
+        end
+
+        if p95 then
+            TextButton.Parent = p95
+        end
+
+        local t111 = {
+			CornerRadius = UDim.new(0, 7)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t111 then
+            for k, v in pairs(t111) do
+                UICorner[k] = v
+            end
+        end
+
+        if TextButton then
+            UICorner.Parent = TextButton
+        end
+
+        local s9 = "line"
+        local t112 = {
+			Color = t3.line or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+        local UIStroke8 = Instance.new("UIStroke")
+
+        if t112 then
+            for k, v in pairs(t112) do
+                UIStroke8[k] = v
+            end
+        end
+
+        if TextButton then
+            UIStroke8.Parent = TextButton
+        end
+
+        if s9 then
+            UIStroke8:SetAttribute("th_stroke", s9)
+        end
+
+        v85(TextButton, "fill", "lift")
+
+        if TextButton then
+            TextButton:SetAttribute("th_text", "text")
+
+            local text = t3.text
+
+            if not text then
+                return TextButton
+            end
+
+            TextButton.TextColor3 = text
+        end
+
+        return TextButton
+    end
+
+    function v287(p97, p98, p99, p100, p101, p102, p103)
+        if p103 then
+            t9[p98] = p102 or { unpack(p101) }
+        else
+            t9[p98] = p102 or p101[1]
+        end
+
+        local _, v856, v857 = v264(p97, p99, p100)
+        local v858 = v286(v856, p103 and v285(t9[p98], p101) or tostring(t9[p98]))
+        local t113 = {
+			AnchorPoint = Vector2.new(1, 0.5),
+			BackgroundTransparency = 1,
+			Position = UDim2.new(1, -6, 0.5, 0),
+			Size = UDim2.fromOffset(12, 12),
+			Font = t4.mid,
+			Text = "▾",
+			TextColor3 = t3.mute,
+			TextSize = 11,
+			ZIndex = 18
+		}
+        local TextLabel = Instance.new("TextLabel")
+
+        if t113 then
+            for k, v in pairs(t113) do
+                TextLabel[k] = v
+            end
+        end
+
+        if v858 then
+            TextLabel.Parent = v858
+        end
+
+        v858.Text = (p103 and v285(t9[p98], p101) or tostring(t9[p98])) .. "   "
+        v858.MouseButton1Click:Connect(function()
+            u284()
+            v103.Visible = true
+            v103.ZIndex = 85
+            v283.Visible = true
+
+            local AbsolutePosition = v858.AbsolutePosition
+            local AbsoluteSize = v858.AbsoluteSize
+            local v1315 = math.min(7, #p101) * 28 + 10
+            local t114 = {
+				BackgroundColor3 = t3.card,
+				Position = UDim2.fromOffset(AbsolutePosition.X, AbsolutePosition.Y + AbsoluteSize.Y + 6),
+				Size = UDim2.fromOffset(math.max(AbsoluteSize.X, 180), v1315),
+				ZIndex = 95
+			}
+            local v1317 = v283
+            local Frame22 = Instance.new("Frame")
+
+            if t114 then
+                for k, v in pairs(t114) do
+                    Frame22[k] = v
+                end
+            end
+
+            if v1317 then
+                Frame22.Parent = v1317
+            end
+
+            local t115 = {
+				CornerRadius = UDim.new(0, 10)
+			}
+            local UICorner = Instance.new("UICorner")
+
+            if t115 then
+                for k, v in pairs(t115) do
+                    UICorner[k] = v
+                end
+            end
+
+            if Frame22 then
+                UICorner.Parent = Frame22
+            end
+
+            local s10 = "accentDeep"
+            local t116 = {
+				Color = t3.accentDeep or t3.line,
+				Thickness = 1,
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			}
+            local UIStroke9 = Instance.new("UIStroke")
+
+            if t116 then
+                for k, v in pairs(t116) do
+                    UIStroke9[k] = v
+                end
+            end
+
+            if Frame22 then
+                UIStroke9.Parent = Frame22
+            end
+
+            if s10 then
+                UIStroke9:SetAttribute("th_stroke", s10)
+            end
+
+            local t117 = {
+				BackgroundTransparency = 1,
+				Size = UDim2.new(1, 0, 1, 0),
+				CanvasSize = UDim2.new(0, 0, 0, #p101 * 28),
+				ScrollBarThickness = 3,
+				BorderSizePixel = 0,
+				ZIndex = 96
+			}
+            local ScrollingFrame = Instance.new("ScrollingFrame")
+
+            if t117 then
+                for k, v in pairs(t117) do
+                    ScrollingFrame[k] = v
+                end
+            end
+
+            if Frame22 then
+                ScrollingFrame.Parent = Frame22
+            end
+
+            v84(ScrollingFrame, 5, 5, 5, 5)
+
+            local t118 = {
+				Padding = UDim.new(0, 2),
+				SortOrder = Enum.SortOrder.LayoutOrder
+			}
+            local UIListLayout = Instance.new("UIListLayout")
+
+            if t118 then
+                for k, v in pairs(t118) do
+                    UIListLayout[k] = v
+                end
+            end
+
+            if ScrollingFrame then
+                UIListLayout.Parent = ScrollingFrame
+            end
+
+            local t119 = {}
+
+            if p103 and type(t9[p98]) == "table" then
+                for _, v in ipairs(t9[p98]) do
+                    t119[v] = true
+                end
+            end
+
+            for i, v in ipairs(p101) do
+                local v1343 = p103 and t119[v] or v == t9[p98]
+                local t120 = {
+					BackgroundColor3 = v1343 and t3.lift or t3.card,
+					Size = UDim2.new(1, 0, 0, 26),
+					Font = t4.body,
+					Text = "   " .. v,
+					TextColor3 = v1343 and t3.accent or t3.text,
+					TextSize = 12,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					AutoButtonColor = false,
+					LayoutOrder = i,
+					ZIndex = 97
+				}
+                local TextButton = Instance.new("TextButton")
+
+                if t120 then
+                    for k, v10 in pairs(t120) do
+                        TextButton[k] = v10
+                    end
+                end
+
+                if ScrollingFrame then
+                    TextButton.Parent = ScrollingFrame
+                end
+
+                local v1348 = TextButton
+                local t121 = {
+					CornerRadius = UDim.new(0, 6)
+				}
+                local UICorner10 = Instance.new("UICorner")
+
+                if t121 then
+                    for k, v11 in pairs(t121) do
+                        UICorner10[k] = v11
+                    end
+                end
+
+                if v1348 then
+                    UICorner10.Parent = v1348
+                end
+
+                v85(v1348, v1343 and t3.lift or t3.card, t3.fill)
+                v1348.MouseButton1Click:Connect(function()
+                    if p103 then
+                        local t122 = {}
+
+                        t119[v] = not t119[v]
+
+                        for _, v13 in ipairs(p101) do
+                            if t119[v13] then
+                                t122[#t122 + 1] = v13
+                            end
+                        end
+
+                        t9[p98] = t122
+
+                        local v2687 = t119[v]
+
+                        v1348.BackgroundColor3 = v2687 and t3.lift or t3.card
+                        v1348.TextColor3 = v2687 and t3.accent or t3.text
+                        v1348:SetAttribute("locked", false)
+                        v858.Text = (p103 and v285(t9[p98], p101) or tostring(t9[p98])) .. "   "
+
+                        local v2688 = t10[p98]
+
+                        if v2688 and v2688.on then
+                            pcall(v2688.on, t122)
+                        end
+
+                        if u265 then
+                            return
+                        end
+
+                        if u266 then
+                            return
+                        end
+
+                        u266 = true
+
+                        local v2689 = v268
+
+                        task.delay(0.35, function()
+                            u266 = false
+
+                            if v2689 ~= (v51().gen or 0) then
+                                return
+                            end
+
+                            v272()
+                        end)
+
+                        return
+                    end
+
+                    t9[p98] = v
+
+                    local v2690 = t10[p98]
+
+                    if v2690 and v2690.on then
+                        pcall(v2690.on, v)
+                    end
+
+                    u284()
+                    v103.Visible = false
+                    v858.Text = (p103 and v285(t9[p98], p101) or tostring(t9[p98])) .. "   "
+
+                    if u265 then
+                        return
+                    end
+
+                    if u266 then
+                        return
+                    end
+
+                    u266 = true
+
+                    local v2691 = v268
+
+                    task.delay(0.35, function()
+                        u266 = false
+
+                        if v2691 ~= (v51().gen or 0) then
+                            return
+                        end
+
+                        v272()
+                    end)
+                end)
+            end
+        end)
+        t10[p98] = {
+			kind = "dropdown",
+			status = v857,
+			options = p101,
+			refresh = function()
+            v858.Text = (p103 and v285(t9[p98], p101) or tostring(t9[p98])) .. "   "
+        end,
+			set = function(p104)
+            t9[p98] = p104
+            v858.Text = (p103 and v285(t9[p98], p101) or tostring(t9[p98])) .. "   "
+        end
+		}
+    end
+    function v288(p105, p106, p107, p108, p109, p110, p111)
+        t9[p106] = p110 or ""
+
+        local _, v871, v872 = v264(p105, p107, p108)
+        local t123 = {
+			BackgroundColor3 = t3.fill,
+			Size = UDim2.new(1, 0, 0, 24),
+			Font = t4.mono,
+			Text = t9[p106],
+			PlaceholderText = p109 or "",
+			PlaceholderColor3 = t3.mute,
+			TextColor3 = t3.text,
+			TextSize = 11,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			ClearTextOnFocus = false,
+			ZIndex = 17
+		}
+        local TextBox2 = Instance.new("TextBox")
+
+        if t123 then
+            for k, v in pairs(t123) do
+                TextBox2[k] = v
+            end
+        end
+
+        if v871 then
+            TextBox2.Parent = v871
+        end
+
+        local v877 = TextBox2
+        local t124 = {
+			CornerRadius = UDim.new(0, 7)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t124 then
+            for k, v in pairs(t124) do
+                UICorner[k] = v
+            end
+        end
+
+        if v877 then
+            UICorner.Parent = v877
+        end
+
+        if v877 then
+            v877:SetAttribute("th_bg", "fill")
+
+            local fill = t3.fill
+
+            if fill and v877:IsA("GuiObject") then
+                v877.BackgroundColor3 = fill
+            end
+        end
+
+        if v877 then
+            v877:SetAttribute("th_text", "text")
+
+            local text = t3.text
+
+            if text then
+                v877.TextColor3 = text
+            end
+        end
+
+        if v877 then
+            v877:SetAttribute("th_placeholder", "mute")
+
+            local mute = t3.mute
+
+            if mute and v877:IsA("TextBox") then
+                v877.PlaceholderColor3 = mute
+            end
+        end
+
+        local s11 = "line"
+        local t125 = {
+			Color = t3.line or t3.line,
+			Thickness = 1,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		}
+        local UIStroke10 = Instance.new("UIStroke")
+
+        if t125 then
+            for k, v in pairs(t125) do
+                UIStroke10[k] = v
+            end
+        end
+
+        if v877 then
+            UIStroke10.Parent = v877
+        end
+
+        if s11 then
+            UIStroke10:SetAttribute("th_stroke", s11)
+        end
+
+        local v890 = UIStroke10
+
+        v84(v877, 8, 0, 8, 0)
+        v877.Focused:Connect(function()
+            v81(v890, 0.12, {
+				Color = t3.accent
+			})
+        end)
+        v877.FocusLost:Connect(function()
+            v81(v890, 0.12, {
+				Color = t3.line
+			})
+            t9[p106] = v877.Text
+
+            local v1354 = t10[p106]
+
+            if v1354 and v1354.on then
+                pcall(v1354.on, v877.Text)
+            end
+
+            if u265 then
+                return
+            end
+
+            if u266 then
+                return
+            end
+
+            u266 = true
+
+            local v1355 = v268
+
+            task.delay(0.35, function()
+                u266 = false
+
+                if v1355 ~= (v51().gen or 0) then
+                    return
+                end
+
+                v272()
+            end)
+        end)
+        v877:GetPropertyChangedSignal("Text"):Connect(function()
+            t9[p106] = v877.Text
+
+            if u265 then
+                return
+            end
+
+            if u266 then
+                return
+            end
+
+            u266 = true
+
+            local v1356 = v268
+
+            task.delay(0.35, function()
+                u266 = false
+
+                if v1356 ~= (v51().gen or 0) then
+                    return
+                end
+
+                v272()
+            end)
+        end)
+        t10[p106] = {
+			kind = "input",
+			status = v872,
+			box = v877,
+			set = function(p112)
+            t9[p106] = p112
+            v877.Text = tostring(p112)
+        end
+		}
+
+        local v891 = p105.items[#p105.items]
+
+        if p111 and p111.visibleIf and v891 then
+            v891.visibleIf = p111.visibleIf
+        end
+    end
+    function v289(p113, p114, p115, p116, p117, p118, p119)
+        local _, v900, v901 = v264(p113, p115, p116)
+        local t126 = {
+			Size = UDim2.new(1, 0, 0, 24),
+			Font = t4.mid,
+			Text = p117,
+			TextSize = 11,
+			AutoButtonColor = false,
+			ZIndex = 17
+		}
+        local TextButton = Instance.new("TextButton")
+
+        if t126 then
+            for k, v in pairs(t126) do
+                TextButton[k] = v
+            end
+        end
+
+        if v900 then
+            TextButton.Parent = v900
+        end
+
+        local t127 = {
+			CornerRadius = UDim.new(0, 7)
+		}
+        local UICorner = Instance.new("UICorner")
+
+        if t127 then
+            for k, v in pairs(t127) do
+                UICorner[k] = v
+            end
+        end
+
+        if TextButton then
+            UICorner.Parent = TextButton
+        end
+
+        if not p119 then
+            local s12 = "line"
+            local t128 = {
+				Color = t3.line or t3.line,
+				Thickness = 1,
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			}
+            local UIStroke11 = Instance.new("UIStroke")
+
+            if t128 then
+                for k, v in pairs(t128) do
+                    UIStroke11[k] = v
+                end
+            end
+
+            if TextButton then
+                UIStroke11.Parent = TextButton
+            end
+
+            if s12 then
+                UIStroke11:SetAttribute("th_stroke", s12)
+            end
+        end
+
+        v85(TextButton, not p119 and "fill" or "accent", not p119 and "lift" or "accentHover")
+
+        local v915 = not p119 and "text" or "ink"
+
+        if TextButton and v915 then
+            TextButton:SetAttribute("th_text", v915)
+
+            local v916 = t3[v915]
+
+            if v916 then
+                TextButton.TextColor3 = v916
+            end
+        end
+
+        t10[p114] = {
+			kind = "button",
+			status = v901,
+			btn = TextButton
+		}
+        TextButton.MouseButton1Click:Connect(function()
+            if p118 then
+                pcall(p118)
+            end
+
+            local v1358 = t10[p114]
+
+            if v1358 and v1358.on then
+                pcall(v1358.on)
+            end
+        end)
+    end
+    function v290(p120, p121, p122, p123, p124)
+        t9[p121] = p124
+
+        local _, v923, v924 = v264(p120, p122, p123)
+        local u925 = false
+        local v926 = v286(v923, p124.Name)
+
+        v926.Font = t4.mono
+        v926.MouseButton1Click:Connect(function()
+            u925 = true
+            v926.Text = "press"
+            v926.TextColor3 = t3.accent
+        end)
+
+        local connection = UserInputService.InputBegan:Connect(function(input, gameProcessed)
+            if not u925 then
+                return
+            end
+
+            if input.UserInputType ~= Enum.UserInputType.Keyboard then
+                return
+            end
+
+            if gameProcessed then
+                return
+            end
+
+            u925 = false
+            t9[p121] = input.KeyCode
+            v926.Text = input.KeyCode.Name
+            v926.TextColor3 = t3.text
+
+            local v1361 = t10[p121]
+
+            if v1361 and v1361.on then
+                pcall(v1361.on, input.KeyCode)
+            end
+
+            if u265 then
+                return
+            end
+
+            if u266 then
+                return
+            end
+
+            u266 = true
+
+            local v1362 = v268
+
+            task.delay(0.35, function()
+                u266 = false
+
+                if v1362 ~= (v51().gen or 0) then
+                    return
+                end
+
+                v272()
+            end)
+        end)
+
+        if connection then
+            t14[#t14 + 1] = connection
+        end
+
+        t10[p121] = {
+			kind = "keybind",
+			status = v924,
+			set = function(p125)
+            if type(p125) == "string" then
+                local ok, result = pcall(function()
+                    return Enum.KeyCode[p125]
+                end)
+
+                if ok then
+                    p125 = result
+                end
+            end
+
+            t9[p121] = p125
+
+            local ok, result = pcall(function()
+                return p125.Name
+            end)
+
+            v926.Text = ok and result or tostring(p125)
+        end
+		}
+    end
+    function v291(p126)
+        return type(p126) == "string" and p126:match("%S") ~= nil
+    end
+    function v292()
+        local Discord = t1.Discord
+
+        if type(Discord) ~= "string" or Discord:match("%S") == nil then
+            return
+        end
+
+        if Discord:find("discord%.", 1) or Discord:find("http", 1, true) then
+            return Discord
+        end
+
+        return "discord.gg/" .. Discord
+    end
+    function v293(p127, p128, p129)
+        local v997 = p127.card or p127.scroll
+        local t129 = {
+			AutomaticSize = Enum.AutomaticSize.Y,
+			BackgroundColor3 = t3.card,
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 0, 0)
+		}
+
+        p127.n = p127.n + 1
+        t129.LayoutOrder = p127.n
+        t129.ZIndex = 14
+
+        local Frame23 = Instance.new("Frame")
+
+        if t129 then
+            for k, v in pairs(t129) do
+                Frame23[k] = v
+            end
+        end
+
+        if v997 then
+            Frame23.Parent = v997
+        end
+
+        local v1002 = Frame23
+        local t130 = {
+			BackgroundColor3 = t3.line,
+			BorderSizePixel = 0,
+			Position = UDim2.new(0, 14, 0, 0),
+			Size = UDim2.new(1, -28, 0, 1),
+			Visible = p127.lastRule ~= nil,
+			ZIndex = 15
+		}
+        local Frame24 = Instance.new("Frame")
+
+        if t130 then
+            for k, v in pairs(t130) do
+                Frame24[k] = v
+            end
+        end
+
+        if v1002 then
+            Frame24.Parent = v1002
+        end
+
+        p127.lastRule = Frame24
+
+        if Frame24 then
+            Frame24:SetAttribute("th_bg", "line")
+
+            local line = t3.line
+
+            if line and Frame24:IsA("GuiObject") then
+                Frame24.BackgroundColor3 = line
+            end
+        end
+
+        if v1002 then
+            v1002:SetAttribute("th_bg", "card")
+
+            local card = t3.card
+
+            if card and v1002:IsA("GuiObject") then
+                v1002.BackgroundColor3 = card
+            end
+        end
+
+        v1002:SetAttribute("th_hover", "lift")
+        v1002:SetAttribute("th_row", true)
+        v1002.MouseEnter:Connect(function()
+            v1002:SetAttribute("th_over", true)
+            v81(v1002, 0.1, {
+				BackgroundTransparency = 0,
+				BackgroundColor3 = t3.lift
+			})
+        end)
+        v1002.MouseLeave:Connect(function()
+            v1002:SetAttribute("th_over", false)
+            v81(v1002, 0.1, {
+				BackgroundTransparency = 1,
+				BackgroundColor3 = t3.card
+			})
+        end)
+
+        local t131 = {
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(14, 8),
+			Size = UDim2.new(1, -28, 0, 14),
+			Font = t4.mid,
+			Text = p128,
+			TextColor3 = t3.text,
+			TextSize = 12,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			ZIndex = 15
+		}
+        local TextLabel = Instance.new("TextLabel")
+
+        if t131 then
+            for k, v in pairs(t131) do
+                TextLabel[k] = v
+            end
+        end
+
+        if v1002 then
+            TextLabel.Parent = v1002
+        end
+
+        if TextLabel then
+            TextLabel:SetAttribute("th_text", "text")
+
+            local text = t3.text
+
+            if text then
+                TextLabel.TextColor3 = text
+            end
+        end
+
+        local t132 = {
+			AutomaticSize = Enum.AutomaticSize.Y,
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(14, 24),
+			Size = UDim2.new(1, -28, 0, 0),
+			Font = t4.body,
+			Text = p129,
+			TextColor3 = t3.dim,
+			TextSize = 11,
+			TextWrapped = true,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			ZIndex = 15
+		}
+        local TextLabel8 = Instance.new("TextLabel")
+
+        if t132 then
+            for k, v in pairs(t132) do
+                TextLabel8[k] = v
+            end
+        end
+
+        if v1002 then
+            TextLabel8.Parent = v1002
+        end
+
+        if TextLabel8 then
+            TextLabel8:SetAttribute("th_text", "dim")
+
+            local dim = t3.dim
+
+            if dim then
+                TextLabel8.TextColor3 = dim
+            end
+        end
+
+        local t133 = {
+			PaddingBottom = UDim.new(0, 10)
+		}
+        local UIPadding = Instance.new("UIPadding")
+
+        if t133 then
+            for k, v in pairs(t133) do
+                UIPadding[k] = v
+            end
+        end
+
+        if v1002 then
+            UIPadding.Parent = v1002
+        end
+
+        p127.items[#p127.items + 1] = {
+			kind = "row",
+			inst = v1002,
+			q = string.lower(p128 .. " " .. p129)
+		}
+    end
+end
+
+local tabMain = v259("Main", "Dashboard")
+local tabSettings = v259("Settings", "UI Settings")
+
+v261("Menu", { "Main" }, 10)
+v261("Config", { "Settings" }, 20)
+
+-- Tab Main
+v263(tabMain, "Features")
+v281(tabMain, "ToggleFeature", "Example Toggle", "This is an example toggle", false)
+v282(tabMain, "SliderFeature", "Example Slider", "This is an example slider", 0, 100, 50, "%")
+v287(tabMain, "DropdownFeature", "Example Dropdown", "This is an example dropdown", {"Option 1", "Option 2", "Option 3"}, "Option 1", false)
+v289(tabMain, "ButtonFeature", "Example Button", "This is an example button", "Click Me", function() print("Clicked!") end, false)
+
+-- Tab Settings
+v263(tabSettings, "UI Configuration")
+v281(tabSettings, "PhoneUI", "Phone layout", "compact hub for phones / emulators", u42)
+v287(tabSettings, "Theme", "Theme", "dark or light", { "Dark", "Light" }, "Dark", false)
+v290(tabSettings, "OpenBind", "Open / close", "press this any time to show or hide", t1.OpenBind)
+
+u68("Main")
+
+local v324 = v50()
+local v325 = v51()
+v325.alive = true
+local t149 = {
+	Flags = t9,
+	Widgets = t10,
+	SetPage = u68,
+	SetVisible = u70,
+	SetTheme = u71,
+	Destroy = u323
+}
+v325.UI = t149
+v324.KiraUI = type(v324.KiraUI) == "table" and v324.KiraUI or {}
+v324.KiraUI[str] = t149
+
+
+-- ARIS style continuous gradient animation
+task.spawn(function()
+    local genv = getgenv and getgenv() or _G
+    while true do
+        task.wait(0.03)
+        local KG = genv.KiraGrad
+        if not KG or not KG.GetMovingColorSequence then continue end
+        local shift = tick() * 0.15
+        local GetMoving = KG.GetMovingColorSequence
+        local P = KG.Palettes
+        local seqOn = GetMoving(P.On, shift)
+        local seqOff = GetMoving(P.Off, shift)
+        local seqText = GetMoving(P.Text, shift * 1.5)
+        local seqBorder = GetMoving(P.Border, shift * 1.8)
+        for _, grad in ipairs(KG.UIGradientList or {}) do
+            if grad and grad.Parent then
+                pcall(function() grad.Color = seqBorder end)
+            end
+        end
+        for _, grad in ipairs(KG.TextGradientList or {}) do
+            if grad and grad.Parent and not grad:GetAttribute("CustomOnColor") then
+                pcall(function() grad.Color = seqText end)
+            end
+        end
+        for _, grad in ipairs(KG.BtnGradientList or {}) do
+            if grad and grad.Parent then
+                pcall(function()
+                    if grad.Parent:GetAttribute("IsOn") then
+                        grad.Color = seqOn
+                    else
+                        grad.Color = seqOff
+                    end
+                end)
+            end
+        end
+    end
+end)
+
+
+-- ===== Fix: proper menu open/close (prevent stack / bubble menus) =====
+do
+    local function setMenuVisible(state)
+        state = not not state
+        if v113 then
+            v113.Visible = state
+        end
+        if v98 then
+            -- keep ScreenGui alive, only hide the window
+            pcall(function()
+                if v103 then v103.Visible = false end -- close dropdown overlay
+            end)
+        end
+        t9 = t9 or {}
+        t9.MenuOpen = state
+    end
+
+    u70 = setMenuVisible
+
+    -- Start visible by default (or respect StartMin if config loaded it)
+    if v113 then
+        v113.Visible = true
+    end
+
+    -- Keybind listener for OpenBind (RightShift by default)
+    local openConn
+    openConn = UserInputService.InputBegan:Connect(function(input, gp)
+        if gp then return end
+        if input.UserInputType ~= Enum.UserInputType.Keyboard then return end
+        local bind = t9.OpenBind or t1.OpenBind
+        if type(bind) == "string" then
+            local ok, kc = pcall(function() return Enum.KeyCode[bind] end)
+            if ok then bind = kc end
+        end
+        if input.KeyCode == bind then
+            local cur = v113 and v113.Visible
+            setMenuVisible(not cur)
+        end
+    end)
+    if openConn then
+        t14 = t14 or {}
+        t14[#t14 + 1] = openConn
+    end
+
+    -- Also expose destroy that cleans previous instances to stop stacking
+    local oldDestroy = u323
+    u323 = function()
+        if openConn then pcall(function() openConn:Disconnect() end) end
+        if oldDestroy then pcall(oldDestroy) end
+        if v98 and v98.Parent then
+            pcall(function() v98:Destroy() end)
+        end
+        -- clean slot
+        local slot = v51 and v51()
+        if slot then
+            slot.alive = false
+            slot.UI = nil
+            slot.unload = nil
+        end
+    end
+end
+-- ===== End open/close fix =====
+
+print("Kira UI Shell Loaded Successfully!")
